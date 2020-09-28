@@ -4,4 +4,4 @@ services:
     build: ./docker/php
     container_name: artur_app
     volumes:
-      - ./:/var/www0
+      - ./:/var/www

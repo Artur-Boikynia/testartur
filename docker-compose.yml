@@ -1,16 +1,9 @@
 version: '3.0'
 
 services:
-  app:
-    build: ./docker/php
-    container_name: arthurpp
-    volumes:
-      - ./:/var/www
   nginx:
     image: nginx
-    depends_on:
-      - app
     ports:
-      - 80:80
+      - 9999:80
     volumes:
       - ./:/usr/share/nginx/html

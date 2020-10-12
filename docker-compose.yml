@@ -1,24 +1,17 @@
-version: "3.1"
+version: '3'
 services:
   app:
     build: ./docker/php
-    container_name: aartur_app
+    container_name: skillup_app
     volumes:
       - ./:/var/www
-  webserver:
-    image: nginx
-    container_name: artur-webserver-1
-    working_dir: /var/www
-    volumes:
-      - ./public/:/var/www
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf/
+  nginx:
+    image: nginx:1.17
+    container_name: skillup_nginx
     ports:
-      - "8000:80"
-    depends_on:
-      - php-fpm
-  php-fpm:
-    build: docker/php
-    container_name: artur-php-fpm-1
-    working_dir: /www
+      - 80:80
     volumes:
-      - ./public/:/var/www
+      - ./:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app

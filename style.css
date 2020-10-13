@@ -1,0 +1,38 @@
+/*pre{*/
+/*    color: blue;*/
+/*    font-size: 16px;*/
+/*}*/
+
+body{
+    background-image: url("images/grey-background-for-site-787760958.jpg");
+}
+header{
+    background-origin: border-box;
+    background-size: auto;
+    background: black;
+    padding: 30px;
+    border-radius: 12px ;
+    opacity: 0.8;
+    text-align: left;
+}
+#textTask{
+    color: white;
+    font-size: 22px;
+    font-weight: initial;
+    text-decoration: none;
+}
+#textTask:hover{
+    color: #EBCACB;
+}
+.font{
+   color: black;
+    font-size: 18px;
+}
+.v2{
+    font-size: 16px;
+}
+.v11{
+    font-weight: bold;
+}
+
+

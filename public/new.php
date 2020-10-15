@@ -1,13 +1,12 @@
 <?php
-error_reporting(E_ALL);
 $staff = [
-    'phpDev' => 'Artur Boikynia',
-    'jsDev' => 'Oleh Yakovlev',
-    'seoDev' => 'Ivan Prokopchuk',
-    'videoMaker' => 'Denys Boyko',
-    'fbAdvertisement' => 'Yaroslav Tokarev',
-    'instagramAdvertisement' => 'Oleksandr Kravchenko',
-    'telegramAdvertisement' => 'Olha Pavlova',
+    'Artur Boikynia',
+    'Oleh Yakovlev',
+    'Ivan Prokopchuk',
+   'Denys Boyko',
+    'Yaroslav Tokarev',
+    'Oleksandr Kravchenko',
+    'Olha Pavlova',
 ];
 
 $taskManager = [
@@ -90,10 +89,6 @@ $taskManager = [
 
     ],
 ];
-/*function mySort ($key){
-    return function ($a, $b) use ($key){
-        return $b[$key] <=> $a[$key];
-    };
+for (reset($staff); ($key = key($staff)); next($staff)){
+    print_r($staff[$key]);
 }
-print_r($taskManager);
-uasort($taskManager, mySort( 'id'));*/

@@ -1,18 +1,19 @@
+
 body{
-    background-image: url("images/grey-background-for-site-787760958.jpg");
+    background-image: url("/images/grey-background-for-site-787760958.jpg");
 }
 header{
     background-origin: border-box;
     background-size: auto;
     background: black;
-    padding: 30px;
+    padding: 75px;
     border-radius: 12px ;
     opacity: 0.8;
     text-align: left;
 }
 #textTask{
     color: white;
-    font-size: 22px;
+    font-size: 30px;
     font-weight: initial;
     text-decoration: none;
 }
@@ -30,5 +31,3 @@ header{
 .v3{
     margin-left: 50px;
 }
-
-

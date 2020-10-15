@@ -16,3 +16,5 @@ echo '<br> Exercise 2  <br>';
 
 $number = (int) 100;              // you must change this variable manually
 echo $number === 0 ? 'Number is zero' : ($number === 1 ? 'Number is one' : ($number === 2 ? 'Number is two' : ($number % 2 === 0 ? "Number {$number} is even" : "Number {$number} is odd")));
+scandir;
+echo __DIR__;

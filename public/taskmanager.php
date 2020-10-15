@@ -90,10 +90,4 @@ $taskManager = [
 
     ],
 ];
-/*function mySort ($key){
-    return function ($a, $b) use ($key){
-        return $b[$key] <=> $a[$key];
-    };
-}
-print_r($taskManager);
-uasort($taskManager, mySort( 'id'));*/
+

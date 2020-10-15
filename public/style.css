@@ -1,33 +1,45 @@
-
 body{
-    background-image: url("/images/grey-background-for-site-787760958.jpg");
+    background-image: url("/images/bg-head.jpg");
 }
 header{
     background-origin: border-box;
     background-size: auto;
-    background: black;
+    background: white;
     padding: 75px;
     border-radius: 12px ;
     opacity: 0.8;
     text-align: left;
 }
+
 #textTask{
-    color: white;
+    color: black;
     font-size: 30px;
     font-weight: initial;
     text-decoration: none;
 }
+
 #textTask:hover{
     color: #EBCACB;
 }
+
 .font{
-    color: black;
+    color: white;
     font-size: 18px;
     padding: 2px;
     text-align: left;
+}
+
+.v11{
+    font-weight: bolder;
+}
+
+.owner {
+    font-family: Dialog;
+    font-weight: bolder;
 
 }
 
-.v3{
-    margin-left: 50px;
+.key{
+    font-weight: bolder;
+    font-size: 30px;
 }

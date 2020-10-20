@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-$staff = [
+$staff1 = [
     'phpDev' => 'Artur Boikynia',
     'jsDev' => 'Oleh Yakovlev',
      0 => 'Ivan Prokopchuk',
@@ -35,6 +35,6 @@ function myCount(array $array, bool $nested = true):int{
     return $i ;
 }
 
-var_dump(myCount($staff));
-var_dump(count($staff));
+var_dump(myCount($staff1));
+var_dump(count($staff1));
 

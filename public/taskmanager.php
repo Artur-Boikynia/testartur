@@ -48,9 +48,8 @@ $taskManager = [
         'taskDeadline' => '01.02.2021 until 20:00 pm',
         'taskStatus' => 'not started',
     ],
-    [
+    [   'taskTitle' => 'Marketing',
         'id' => 3,
-        'taskTitle' => 'Marketing',
         'taskDescription' => 'Advertising of products, that is selling on the site',
         'taskOwner' => [
             'owner1' => $staff['videoMaker'],
@@ -90,4 +89,15 @@ $taskManager = [
 
     ],
 ];
+function mySort ($key){
+    return function ($a, $b) use ($key){
+        return $a[$key] <=> $b[$key];
+    };
+}
+//print_r($taskManager);
+uasort($taskManager, mySort( 'id'));
+end($taskManager);
+$a = key($taskManager);
+var_dump($a);
+
 

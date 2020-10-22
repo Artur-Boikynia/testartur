@@ -1,27 +1,5 @@
 <?php
-/**
- * This function finds words in string from library and changs this words on "****"
- * * @param array $lib
- * * @param string $message
- * @return void
- *
- */
-function removingBadWords(array $lib, string &$message):void{
-    foreach ($lib as $key => $value){
-        if(stripos($message, $value) !== false){
-            $beginningOfWord = stripos($message, $value);
-            $wordLenght = strlen($value);
-            $placeOfWord = $beginningOfWord + $wordLenght;
-            for ($beginningOfWord; $beginningOfWord < $placeOfWord ; $beginningOfWord++){
-                $message[$beginningOfWord] = '*';
-            }
-            removingBadWords($lib, $message);
-        }
-        else{
-            continue;
-        }
-    }
-}
+require_once __DIR__.'/myfunction.php';
 
 $firstName = $_POST['firstname'] ?? null;
 $secondName = $_POST['secondname'] ?? null;
@@ -42,6 +20,22 @@ if(stripos($email, '.') === false ||stripos($email, '@') === false ){
     exit('You entered the wrong email');
 }
 
+if (file_exists('storage') && !empty(file_get_contents(__DIR__.'/storage') )){
+    $messages = [];
+    $file = fopen(__DIR__ . '/storage', 'rb');
+    while ($line = fgets($file, 1024)) {
+        $messages[] = json_decode(trim($line), true, 512, JSON_THROW_ON_ERROR);
+    }
+    uasort($messages, mySort('id'));                   //   sorts by ID
+    end($messages);
+    (int) $keyOfLastElement = key($messages);
+    $keyOfLastElement++;
+}
+
+else{
+    $keyOfLastElement = 0;
+}
+
 $lib =[
     'fuck',
     'nigger',
@@ -54,14 +48,15 @@ $lib =[
 ];
 
 removingBadWords($lib, $message);
-//print_r($message);
 
 $data = [
+    'id' => $keyOfLastElement,
     'firstname' => $firstName,
     'secondname' => $secondName,
     'email' => $email,
     'message' => nl2br($message),
-    'date' => date('Y-m-d H:i:s')
+    'date' => date('Y-m-d H:i:s'),
+
 ];
 
 $content = json_encode($data, JSON_THROW_ON_ERROR) . PHP_EOL;

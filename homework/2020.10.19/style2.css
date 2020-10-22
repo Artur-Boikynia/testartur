@@ -7,7 +7,10 @@
 .classHidden {
     display: none;
 }
+#editButtonsClose{
+    padding-top: 1%;
+}
 #editbuttons{
-    padding-left: 80%;
+    padding-left: 15%;
     padding-top: 1%;
 }

@@ -29,3 +29,14 @@ function mySort ($key){
         return $a[$key] <=> $b[$key];
     };
 }
+
+$lib =[
+    'fuck',
+    'nigger',
+    'bitch',
+    'asshole',
+    'retard',
+    'fuck you',
+    'jerk',
+    'sucker',
+];

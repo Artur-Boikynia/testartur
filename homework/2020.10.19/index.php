@@ -9,6 +9,7 @@ while ($line = fgets($file, 1024)) {
 
 fclose($file);
 
+//var_dump($messages);
 ?>
 <!doctype html>
 <html lang="en">
@@ -19,8 +20,16 @@ fclose($file);
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link href="style.css" rel="stylesheet" type="text/css"/>
+<!--    <link href="style1.css" rel="stylesheet" type="text/css"/>-->
+    <link href="style2.css" rel="stylesheet" type="text/css"/>
     <title>Form</title>
+        <script>
+            function showMessage(text){
+                 var div = document.getElementById(text),
+                     style = div.style;
+                style.display = 'block';
+            }
+        </script>
 </head>
 <body>
     <div id="forms">
@@ -91,11 +100,22 @@ fclose($file);
             <td><?= $message['firstname'] ?></td>
             <td><?= $message['secondname'] ?></td>
             <td><?= $message['email'] ?></td>
-            <td><?= $message['message'] ?></td>
+            <td>
+                <?= $message['message'] ?>
+                <div class="classHidden" id="<?= $message['id'] ?>">
+                    <form action="">
+                        <label for="exampleFormControlTextarea1">Edit your comments</label>
+                        <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3"> <?= $message['message'] ?> </textarea>
+                        <div id="editbuttons">
+                            <button type="submit" name="submit" class="btn btn-primary" value="edit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <form>
-                        <button type="submit" name="" class="btn btn-secondary" value="<?= $message['id'] ?>">Edit</button>
+                        <button type="button" name="" class="btn btn-secondary" id="editmessage" value="<?= $message['id'] ?>" onclick="showMessage(<?= $message['id'] ?>)" >Edit</button>
                     </form>
                 </div>
             </td>

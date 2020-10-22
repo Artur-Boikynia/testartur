@@ -1,0 +1,13 @@
+#forms{
+    padding-left: 500px;
+    padding-right: 500px;
+    padding-top: 50px;
+}
+
+.classHidden {
+    display: none;
+}
+#editbuttons{
+    padding-left: 80%;
+    padding-top: 1%;
+}

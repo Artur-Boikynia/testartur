@@ -20,9 +20,11 @@ foreach ( $messages as $key => $value){
 file_put_contents(__DIR__ . '/storage', '');
 
 uasort($messages, mySort('id'));
+
 foreach ($messages as $k => $v) {
     $content = json_encode($v, JSON_THROW_ON_ERROR) . PHP_EOL;
     file_put_contents(__DIR__ . '/storage', $content, FILE_APPEND);
 }
+
 header('Location: /homework/2020.10.19');
 exit;

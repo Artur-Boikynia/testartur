@@ -24,12 +24,18 @@ function removingBadWords(array $lib, string &$message):void{
 }
 
 
+/**
+ * This function makes sorting by a specific element
+ */
 function mySort ($key){
     return function ($a, $b) use ($key){
         return $a[$key] <=> $b[$key];
     };
 }
 
+/**
+ * The library of bad words
+ */
 $lib =[
     'fuck',
     'nigger',

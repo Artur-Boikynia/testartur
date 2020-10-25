@@ -20,7 +20,7 @@ fclose($file);
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link href="style2.css" rel="stylesheet" type="text/css"/>
+    <link href="style3.css" rel="stylesheet" type="text/css"/>
     <title>Form</title>
         <script>
             function showMessage(text){
@@ -35,8 +35,14 @@ fclose($file);
                 style.display = 'none';
             }
         </script>
+
 </head>
 <body>
+    <div class="card text-white bg-dark mb-3" style="max-width: 120rem;">
+        <div class="card-body">
+            <h5 class="card-title">testFORM</h5>
+        </div>
+    </div>
     <div id="forms">
         <form action="/homework/2020.10.19/message.php" method="post" >
             <div class="form-group row" >

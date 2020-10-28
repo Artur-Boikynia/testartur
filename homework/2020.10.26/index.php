@@ -6,15 +6,12 @@ $dir = rtrim($config['baseDir'],'/');
 $webRout = rtrim($config['webRout'],'/');
 $actualRout = $dir;
 
-
 if($rout){
     $actualRout= realpath($dir . '/' . $rout);
 }
 
 $actualDir = $actualRout;
 $insideRout = ltrim(str_replace($dir,'', $actualRout),'/');
-
-
 
 if (mb_strlen($actualDir) < mb_strlen($dir)) {
     exit('Directory is not available');
@@ -25,7 +22,7 @@ $content='';
 if(is_file($actualRout)){
     switch (mime_content_type($actualRout)){
         case 'image/jpeg':
-            $content = "<img src='{$webRout}/{$rout}' alt='image' width='100%'>";
+            $content = "<img src='{$webRout}/{$rout}' alt='image' width='100%' >";
             break;
         case 'text/plain':
             $content = nl2br(file_get_contents($actualRout));
@@ -42,7 +39,6 @@ if(is_file($actualRout)){
     $actualDir = dirname($actualRout);
     $insideRout = dirname($insideRout);
 }
-
 
 $data = scandir($actualDir);
 
@@ -71,7 +67,6 @@ uasort($data, static function($a, $b){
 
 $nameOfDir = explode('/', $actualDir);
 $nameOfDir = (end($nameOfDir));
-
 
 $explodedBreadcrumbs = explode('/', $insideRout);
 $lib = '';
@@ -126,10 +121,6 @@ $lib = '';
     </li>
     <?php endfor;?>
 </ul>
-
-
-
-
 
 <nav class="navbar navbar-dark bg-dark">
     <div>
@@ -187,7 +178,7 @@ $lib = '';
 <nav class="navbar navbar-dark bg-dark">
     <form  action="upload.php" class="form-inline my-2 my-lg-0" method="post" enctype="multipart/form-data">
         <input type="hidden" name="baseDir" value="<?=$insideRout?>">
-        <input class="form-control mr-sm-2" name="attachment[]" type="file" placeholder="Name of file" multiple="multiple" max="3">
+        <input class="form-control mr-sm-2" name="attachment[]" type="file" placeholder="Name of file" multiple="multiple" max="2">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add files</button>
     </form>
 </nav>

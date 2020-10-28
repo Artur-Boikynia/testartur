@@ -35,7 +35,7 @@ for ($i = 0; $i < count($attachment); $i++ ){
     if($attachment[$i]['size'] > 1e6){                                      // size of file must to be under then 1 MB
        exit("File {$attachment[$i]['name']} is too large. Choose another file with size under 1 MB");
     }
-    if(in_array($attachment[$i]['type'],$arrayOfForbiddenTypes)){
+    if(in_array($attachment[$i]['type'], $arrayOfForbiddenTypes)){
         exit("type {$attachment[$i]['type']} does not fit");
     }
 }

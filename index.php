@@ -1,4 +1,5 @@
 <?php
+var_dump(password_hash('user3', CRYPT_BLOWFISH));
 $files = scandir(__DIR__);
 $elements = array_filter($files, static function (string $element) {
     return $element[0] !== '.' && stripos($element, 'docker') === false && stripos($element, 'images') === false ;

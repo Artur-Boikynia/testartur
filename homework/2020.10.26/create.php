@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ .'/security.php';
+require_once __DIR__ .'/userCount.php';
+
 $baseDir = $_POST['baseDir'] ?? null;
 $nameDir = $_POST['newDirectory'];
 

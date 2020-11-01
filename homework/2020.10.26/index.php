@@ -1,8 +1,7 @@
 <?php
-
 require_once __DIR__ .'/security.php';
+require_once __DIR__ .'/userCount.php';
 $config = require __DIR__.'/config.php';
-var_dump($_COOKIE);
 $rout = ltrim($_GET['rout'] ?? '' , '/');
 $dir = rtrim($config['baseDir'],'/');
 $webRout = rtrim($config['webRout'],'/');
@@ -107,10 +106,15 @@ $lib = '';
 -->
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="index.php">MyCloud</a>
-    <h1 class="navbar-brand" href="index.php">LOGIN: <?=$nameOfUser?></h1>
-    <form  action="signOut.php" class="form-inline my-2 my-lg-0" method="post">
-        <button name="logout" value="out" class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
-    </form>
+    <h1 class="navbar-brand" href="index.php"> YOUR LOGIN: <?=$nameOfUser?></h1>
+    <div class="form-inline my-2 my-lg-0">
+        <form style="margin-right: 10px; " action="signOut.php" class="form-inline my-2 my-lg-0" method="post">
+            <button name="logout" value="out" class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
+        </form>
+        <form action="statisticPage.php" class="form-inline my-2 my-lg-0" method="post">
+            <button name="statistic" value="statistic" class="btn btn-outline-success my-2 my-sm-0" type="submit">Site statistics</button>
+        </form>
+    </div>
 </nav>
 <ul class="nav nav-tabs">
     <li class="nav-item">

@@ -7,7 +7,6 @@ require_once __DIR__ .'/userCount.php';
 /** @var  array $filtredArray  */
 $arrayForTable = $filtredArray;
 
-
 ?>
 
 <!doctype html>
@@ -61,18 +60,36 @@ $arrayForTable = $filtredArray;
         <th scope="col">Date</th>
     </tr>
     </thead>
-    <tbody>
     <?php for($i = 0; $i < count($arrayForTable); $i++) : ?>
-        <?php $col= $i+1; ?>
-    <tr>
-        <th scope="row"><?=$col?></th>
-        <td><?= $arrayForTable[$i]['username']?></td>
-        <td><?= $arrayForTable[$i]['count']?></td>
-        <td><?= $arrayForTable[$i]['visit']?></td>
-    </tr>
-    <?php endfor; ?>
+        <?php $col= $i+1;
+        (int) $sumOfVisits += $arrayForTable[$i]['count'];
+        ?>
+    <tbody>
+        <tr>
+            <th scope="row"><?=$col?></th>
+            <td><?= $arrayForTable[$i]['username']?></td>
+            <td><?= $arrayForTable[$i]['count']?></td>
+            <td><?= $arrayForTable[$i]['visit']?></td>
+        </tr>
     </tbody>
+    <?php endfor; ?>
 </table>
 
+<table style="width: 100%">
+    <?php for($i = 0; $i < count($arrayForTable); $i++) : ?>
+        <?php
+        $col= $i+1;
+         $percent = round((($arrayForTable[$i]['count'] / $sumOfVisits) * 100), 1);
+        ?>
+        <tr style="width: 100%">
+            <td style="width: 10%; text-align: center"><?= $arrayForTable[$i]['username']?></td>
+            <td style="width: 90%">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: <?=$percent?>%;" aria-valuenow="<?=$percent?>" aria-valuemin="0" aria-valuemax="100"><?=$percent?>%</div>
+                </div>
+            </td>
+        </tr>
+    <?php endfor; ?>
+</table>
 </body>
 </html>

@@ -1,7 +1,9 @@
 <?php
-$config = require __DIR__ . '/config.php';
+
 require_once __DIR__ .'/security.php';
 require_once __DIR__ .'/userCount.php';
+
+$config = require __DIR__ . '/config.php';
 
 function invertArray(array $filePost) : array
 {
@@ -14,7 +16,6 @@ function invertArray(array $filePost) : array
             $fileArray[$i][$key] = $filePost[$key][$i];
         }
     }
-
     return $fileArray;
 }
 

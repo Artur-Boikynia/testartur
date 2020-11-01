@@ -7,8 +7,8 @@ $password = $_POST['password'] ?? null;
 if (!$login || !$password) {
     exit('Login and password are required');
 }
-$config = require __DIR__ . '/config.php';
 
+$config = require __DIR__ . '/config.php';
 
 $hash = $config['users'][$login] ?? null;
 

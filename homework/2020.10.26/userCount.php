@@ -1,8 +1,11 @@
 <?php
 session_start();
+
 require_once __DIR__ .'/security.php';
+
 define('TODAY_DATE' , date('Y-m-d') );
 define('TODAY_TIME' , time());
+
 $messages = [];
 $file = fopen(__DIR__ . '/stat.txt', 'rb');
 while ($line = fgets($file, 1024)) {
@@ -10,7 +13,6 @@ while ($line = fgets($file, 1024)) {
 
 }
 fclose($file);
-//var_dump($messages);
 
 if(filesize(__DIR__ . '/stat.txt') === 0){
     $bufferArray = [
@@ -33,7 +35,7 @@ else{
         ];
         $generalArray[] = $bufferArray;
     }
-  else{
+     else{
         for ($i = 0; $i<count($generalArray); $i++){
             if($generalArray[$i]['username'] === $_SESSION['user']){
                 if($generalArray[$i]['visit'] === TODAY_DATE){
@@ -45,7 +47,7 @@ else{
                 }
             }
         }
-   }
+     }
 }
 
 $filtredArray = array_filter($generalArray, static function($element){
@@ -65,6 +67,5 @@ fclose($file);
 
 $content = json_encode($filtredArray, JSON_THROW_ON_ERROR) . PHP_EOL;
 file_put_contents(__DIR__ . '/stat.txt', $content, FILE_APPEND);
-
 
 

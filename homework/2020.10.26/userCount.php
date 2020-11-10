@@ -2,70 +2,76 @@
 session_start();
 
 require_once __DIR__ .'/security.php';
+$configDb = require __DIR__ . '/config.php';
 
-define('TODAY_DATE' , date('Y-m-d') );
-define('TODAY_TIME' , time());
 
-$messages = [];
-$file = fopen(__DIR__ . '/stat.txt', 'rb');
-while ($line = fgets($file, 1024)) {
-    $messages = json_decode(trim($line), true, 512, JSON_THROW_ON_ERROR);
+$todayDate = date('Y-m-d');
 
+$nameOfUserCount = $_SESSION['user'] ;
+
+$linkDb = mysqli_connect(
+    $configDb['db']['host'],
+    $configDb['db']['user'],
+    $configDb['db']['password'],
+    $configDb['db']['db'],
+);
+
+if (!$linkDb) {
+    echo "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL;
+    echo "Код ошибки errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "Текст ошибки error: " . mysqli_connect_error() . PHP_EOL;
+    exit;
 }
-fclose($file);
 
-if(filesize(__DIR__ . '/stat.txt') === 0){
-    $bufferArray = [
-        'username' => $_SESSION['user'],
-        'count' => 1,
-        'visit' => date('Y-m-d',TODAY_TIME),
-    ];
-    $generalArray[] = $bufferArray;
+$sqlCount = "SELECT * FROM user_count WHERE user_login = ?";
+$stmtCount = mysqli_prepare($linkDb, $sqlCount);
+mysqli_stmt_bind_param($stmtCount, 's',$nameOfUserCount);
+mysqli_stmt_execute($stmtCount);
+$resultCount = mysqli_stmt_get_result($stmtCount);
+
+$messages = mysqli_fetch_assoc($resultCount);
+mysqli_stmt_close($stmtCount);
+
+/*var_dump($messages);
+exit;*/
+
+if($messages === null){
+    $insertUser = "INSERT INTO user_count values ( ?, ?, ?)";
+    $stmtInsert = mysqli_prepare($linkDb, $insertUser);
+    mysqli_stmt_bind_param($stmtInsert, 'sis',$nameOfUserCount, $startCount, $todayDate );
+    $startCount = 1;
+    mysqli_stmt_execute($stmtInsert);
+    mysqli_stmt_close($stmtInsert);
+
 }
 else{
-    for($k = 0; $k<count($messages); $k++){
-        $libName[] = $messages[$k]['username'];
-        $generalArray[] = $messages[$k];
-    }
-    if(in_array($_SESSION['user'],$libName) === false){
-        $bufferArray = [
-            'username' => $_SESSION['user'],
-            'count' => 1,
-            'visit' => date('Y-m-d',TODAY_TIME),
-        ];
-        $generalArray[] = $bufferArray;
-    }
-     else{
-        for ($i = 0; $i<count($generalArray); $i++){
-            if($generalArray[$i]['username'] === $_SESSION['user']){
-                if($generalArray[$i]['visit'] === TODAY_DATE){
-                    $generalArray[$i]['count']++;
-                }
-                else{
-                    $generalArray[$i]['count'] = 1;
-                    $generalArray[$i]['visit'] = TODAY_DATE;
-                }
-            }
-        }
-     }
-}
+    if($messages['update_at'] == $todayDate){
+        $addCount = $messages['count'] + 1 ;
+        $addUser = "UPDATE user_count SET `count` = ? where user_login = ?";
+        $stmtAdd = mysqli_prepare($linkDb, $addUser);
+        mysqli_stmt_bind_param($stmtAdd, 'is',$addCount ,$nameOfUserCount);
+        mysqli_stmt_execute($stmtAdd);
+        mysqli_stmt_close($stmtAdd);
 
-$filtredArray = array_filter($generalArray, static function($element){
-    if($element['visit'] === TODAY_DATE ){
-        return true;
     }
     else{
-        return false;
+        $removeUser = "DELETE FROM user_count WHERE user_login = ?";
+        $stmtRemove = mysqli_prepare($linkDb, $removeUser);
+        mysqli_stmt_bind_param($stmtRemove, 's',$nameOfUserCount);
+        mysqli_stmt_execute($stmtRemove);
+        mysqli_stmt_close($stmtRemove);
+
+        $insertUser = "INSERT INTO user_count values ( ?, ?, ?)";
+        $stmtInsert = mysqli_prepare($linkDb, $insertUser);
+        mysqli_stmt_bind_param($stmtInsert, 'sis',$nameOfUserCount, $startCount, $todayDate );
+        $startCount = 1;
+        mysqli_stmt_execute($stmtInsert);
+        mysqli_stmt_close($stmtInsert);
+
     }
-});
+}
+mysqli_close($linkDb);
 
-sort($filtredArray);
 
-$file = fopen(__DIR__ . '/stat.txt', 'a+b');
-ftruncate($file, 0);
-fclose($file);
-
-$content = json_encode($filtredArray, JSON_THROW_ON_ERROR) . PHP_EOL;
-file_put_contents(__DIR__ . '/stat.txt', $content, FILE_APPEND);
 
 

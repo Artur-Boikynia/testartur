@@ -19,11 +19,21 @@ if (!$linkForShow) {
     exit;
 }
 
-$sqlForShow = "SELECT * FROM user_count";
+$sqlForShow = <<< SQL
+SELECT user_name, COUNT(1) AS usercont, DATE_FORMAT(update_at,'%Y-%m-%d') AS date
+FROM user_log
+GROUP BY user_name, date
+HAVING date = CURRENT_DATE;
+SQL;
+
 $stmtForShow = mysqli_prepare($linkForShow, $sqlForShow);
 mysqli_stmt_execute($stmtForShow);
 $resultForShow = mysqli_stmt_get_result($stmtForShow);
 $arrayForTable = mysqli_fetch_all($resultForShow);
+
+mysqli_stmt_close($stmtForShow);
+
+mysqli_close($linkForShow);
 
 ?>
 
@@ -100,7 +110,7 @@ $arrayForTable = mysqli_fetch_all($resultForShow);
          $percent = round((($arrayForTable[$i][1] / $sumOfVisits) * 100), 1);
         ?>
         <tr style="width: 100%">
-            <td style="width: 10%; text-align: center"><?= $arrayForTable[$i][1]?></td>
+            <td style="width: 10%; text-align: center"><?= $arrayForTable[$i][0]?></td>
             <td style="width: 90%">
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: <?=$percent?>%;" aria-valuenow="<?=$percent?>" aria-valuemin="0" aria-valuemax="100"><?=$percent?>%</div>

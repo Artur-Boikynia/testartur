@@ -6,8 +6,8 @@ return [
     'web' => '/homework/2020.10.26',
     'db' =>[
         'host' => 'db',
-        'user' => 'artur_user',
+        'user' => 'artur_base',
         'password' => 'artur_pwd',
-        'db' => 'artur_db',
+        'db' => 'artur_shop',
     ]
 ];

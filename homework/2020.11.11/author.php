@@ -4,9 +4,11 @@ session_start();
 $login = $_POST['username'] ?? null;
 $password = $_POST['password'] ?? null;
 
+
 if (!$login || !$password) {
     exit('Login and password are required');
 }
+
 
 $config = require __DIR__ . '/config.php';
 $link = mysqli_connect(
@@ -23,12 +25,12 @@ if (!$link) {
     exit;
 }
 
-$sql = "SELECT * FROM users WHERE login = ?";
-$stmt = mysqli_prepare($link, $sql);  // підготовлює SQL  запрос
-mysqli_stmt_bind_param($stmt, 's',$login); // Привязка переменных к параметрам подготавливаемого запроса
-mysqli_stmt_execute($stmt); // Выполняет подготовленный запрос
-$result = mysqli_stmt_get_result($stmt);  // Получает результат из подготовленного запроса
-$user = mysqli_fetch_assoc($result);     // функція яка перетворює нашу строку з бази даеих в масив.
+$sql = "SELECT * FROM logins WHERE login = ?";
+$stmt = mysqli_prepare($link, $sql);
+mysqli_stmt_bind_param($stmt, 's',$login);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$user = mysqli_fetch_assoc($result);
 
 $hash = $user['password'] ?? null;
 

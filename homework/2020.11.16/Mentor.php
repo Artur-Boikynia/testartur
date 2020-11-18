@@ -18,11 +18,15 @@ class Mentor extends Student
         $this->setNameOfMentor($name);
         $this->setTitle($title);
         $this->setStatusOfchek($this->statusOfChek);
+        $this->memory[$studentName]['nameofmentor'] = $this->getNameOfMentor();
+        $this->memory[$studentName]['title'] = $this->getTitle();
+        $this->memory[$studentName]['statusofcheck'] = $this->getStatusOfchek();
 
     }
 
     public function updateStatusOfCheck(string $newStatus, string $studentName):void{
         $this->setStatusOfChek($newStatus);
+        $this->memory[$studentName]['statusofcheck'] = $this->getStatusOfChek();
     }
 
     /**

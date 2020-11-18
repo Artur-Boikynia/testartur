@@ -3,6 +3,7 @@
 
 class Student
 {
+    protected array $memory = [];
     private string $nameOfStudent = 'default';
     private string $group = 'default';
     private string $statusOfTask = 'not done';
@@ -18,7 +19,10 @@ class Student
          $this->setNameOfStudent($name);
          $this->setGroup($group);
          $this->setGroup($group);
-
+         $this->memory[$name]['nameofstudent'] = $this->getNameOfStudent();
+         $this->memory[$name]['group'] = $this->getGroup();
+         $this->memory[$name]['statusoftask'] = $this->getStatusOfTask();
+         ;
     }
 
     /**
@@ -26,6 +30,7 @@ class Student
      */
     public function updateStatusOfTask (string $newStatus, string $studentName):void{
         $this->setStatusOfTask($newStatus);
+        $this->memory[$studentName]['statusoftask'] = $this->getStatusOfTask();
     }
 
     /**
@@ -75,5 +80,14 @@ class Student
     {
         return $this->statusOfTask;
     }
+
+    /**
+     * @return array
+     */
+    protected function getMemory(): array // must be protected
+    {
+        return $this->memory;
+    }
+
 
 }

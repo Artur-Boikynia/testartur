@@ -18,32 +18,32 @@ class Homework extends Mentor
         $this->setTaskBegin(date('Y-m-d H:i:s',$nowDate));
         $this->setTaskName($taskName);
         $this->setDeadLine(date('Y-m-d H:i:s',$nowDate + $daysDuration * 24 * 3600));
+        $this->memory[$studentName]['taskName'] = $this->getTaskName();
+        $this->memory[$studentName]['taskBegin'] = $this->getTaskBegin();
+        $this->memory[$studentName]['deadline'] = $this->getDeadLine();
     }
 
     /**
      * @param string $studentName
      */
     public function monitoringOfProcess(string $studentName): void{
-        $taskStatus = $this->getStatusOfTask() ;
-        $checkStatus = $this->getStatusOfChek();
+        $taskStatus = $this->memory[$studentName]['statusoftask'] ;
+        $checkStatus = $this->memory[$studentName]['statusofcheck'] ;
 
         if($taskStatus === 'done' && $checkStatus === 'No checked'){
-            $text =  "Mentor {$this->getNameOfMentor()}  can begin to check task \"{$this->getTaskName()}\" ";
+            $text =  "Mentor {$this->memory[$studentName]['nameofmentor']}  can begin to check task \"{$this->memory[$studentName]['taskName']}\" ";
             echo $text;
             }
         elseif ($checkStatus === 'processing' && $taskStatus === 'done'){
-            $text =  " Task \"{$this->getTaskName()}\" is in PROCESSING <br/><br/>";
-            echo $text;
             $this->printData($studentName);
         }
         elseif ($checkStatus === 'checked' &&  $taskStatus == 'done'){
-            $text = " {$this->getNameOfStudent()}, your task \"{$this->getTaskName()}\" is already checked, you can finde yor point in Campus ";
+            $text = " {$this->memory[$studentName]['nameofstudent']}, your task \"{$this->memory[$studentName]['taskName']}\" is already checked, you can find is in Campus ";
             echo $text ;
         }
         else{
-            $text = "Student {$this->getNameOfStudent()} has not yet done  task \"{$this->getTaskName()}\" <br/><br/> ";
+            $text = "Student {$this->memory[$studentName]['nameofstudent']} has not yet done  task \"{$this->memory[$studentName]['taskName']}\" ";
             echo $text ;
-            $this->printData($studentName);
         }
     }
 
@@ -51,18 +51,18 @@ class Homework extends Mentor
      * @param string $studentName
      */
     private function printData (string $studentName){
-//        $text =  " Task \"{$this->getTaskName()}\" is in PROCESSING <br/>";
+        $text =  " Task \"{$this->memory[$studentName]['taskName']}\" is in PROCESSING <br/>";
         $text1 =  "Data for Home : <br/>";
-        $text2 =  "Student : {$this->getNameOfStudent()} <br/>";
-        $text3 =  "Group : {$this->getGroup()} <br/>";
-        $text4 =  "Status of task  : {$this->getStatusOfTask()} <br/>";
-        $text5 =  "Mentor  : {$this->getTitle()} {$this->memory[$studentName]['nameofmentor']} <br/>";
-        $text6 =  "Status of check  : {$this->getStatusOfChek()} <br/>";
-        $text7 =  "Task  : {$this->getTaskName()} <br/>";
-        $text8 =  "Start  : {$this->getTaskBegin()} <br/>";
-        $text9 =  "Deadline  : {$this->getDeadLine()} <br/>" ;
+        $text2 =  "Student : {$this->memory[$studentName]['nameofstudent']} <br/>";
+        $text3 =  "Group : {$this->memory[$studentName]['group']} <br/>";
+        $text4 =  "Status of task  : {$this->memory[$studentName]['statusoftask']} <br/>";
+        $text5 =  "Mentor  : {$this->memory[$studentName]['title']} {$this->memory[$studentName]['nameofmentor']} <br/>";
+        $text6 =  "Status of check  : {$this->memory[$studentName]['statusofcheck']} <br/>";
+        $text7 =  "Task  : {$this->memory[$studentName]['taskName']} <br/>";
+        $text8 =  "Start  : {$this->memory[$studentName]['taskBegin']} <br/>";
+        $text9 =  "Deadline  : {$this->memory[$studentName]['deadline']} <br/>" ;
 
-        echo  $text1 . $text2. $text3 . $text4 . $text5 . $text6 . $text7 . $text8 . $text9;
+        echo $text . $text1 . $text2. $text3 . $text4 . $text5 . $text6 . $text7 . $text8 . $text9;
     }
 
     /**
@@ -112,5 +112,6 @@ class Homework extends Mentor
     {
         return $this->taskName;
     }
+
 
 }

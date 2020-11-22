@@ -13,8 +13,8 @@ $task1 -> setNameAndGroupOfStudent('Artur', 'DP-92');
 $task1 -> homeworkSet("OOP", 'Artur', 2);
 
 
-//$task1 -> updateStatusOfTask('done', 'Artur' );        // done, not done
-//$task1 -> updateStatusOfCheck('processing', 'Artur');      //processing , checked, No checked
+$task1 -> updateStatusOfTask('done', 'Artur' );        // done, not done
+$task1 -> updateStatusOfCheck('checked', 'Artur');      //processing , checked, No checked
 
 
 $task1-> monitoringOfProcess('Artur');

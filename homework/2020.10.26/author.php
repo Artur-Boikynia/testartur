@@ -23,7 +23,7 @@ if (!$link) {
     exit;
 }
 
-$sql = "SELECT * FROM users WHERE login = ?";
+$sql = "SELECT * FROM logins WHERE login = ?";
 $stmt = mysqli_prepare($link, $sql);  // підготовлює SQL  запрос
 mysqli_stmt_bind_param($stmt, 's',$login); // Привязка переменных к параметрам подготавливаемого запроса
 mysqli_stmt_execute($stmt); // Выполняет подготовленный запрос

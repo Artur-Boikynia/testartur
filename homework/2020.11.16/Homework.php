@@ -35,15 +35,18 @@ class Homework extends Mentor
             echo $text;
             }
         elseif ($checkStatus === 'processing' && $taskStatus === 'done'){
-            $this->printData($studentName);
+             $text =  " Task \"{$this->memory[$studentName]['taskName']}\" is in PROCESSING <br/>";
+             echo $text;
+             $this->printData($studentName);
         }
         elseif ($checkStatus === 'checked' &&  $taskStatus == 'done'){
-            $text = " {$this->memory[$studentName]['nameofstudent']}, your task \"{$this->memory[$studentName]['taskName']}\" is already checked, you can find is in Campus ";
+            $text = " {$this->memory[$studentName]['nameofstudent']}, your task \"{$this->memory[$studentName]['taskName']}\" is already checked, you can find result in Campus ";
             echo $text ;
         }
         else{
-            $text = "Student {$this->memory[$studentName]['nameofstudent']} has not yet done  task \"{$this->memory[$studentName]['taskName']}\" ";
+            $text = "Student {$this->memory[$studentName]['nameofstudent']} has not yet done  task \"{$this->memory[$studentName]['taskName']}\" <br/><br/> ";
             echo $text ;
+            $this->printData($studentName);
         }
     }
 
@@ -51,7 +54,7 @@ class Homework extends Mentor
      * @param string $studentName
      */
     private function printData (string $studentName){
-        $text =  " Task \"{$this->memory[$studentName]['taskName']}\" is in PROCESSING <br/>";
+
         $text1 =  "Data for Home : <br/>";
         $text2 =  "Student : {$this->memory[$studentName]['nameofstudent']} <br/>";
         $text3 =  "Group : {$this->memory[$studentName]['group']} <br/>";
@@ -62,7 +65,7 @@ class Homework extends Mentor
         $text8 =  "Start  : {$this->memory[$studentName]['taskBegin']} <br/>";
         $text9 =  "Deadline  : {$this->memory[$studentName]['deadline']} <br/>" ;
 
-        echo $text . $text1 . $text2. $text3 . $text4 . $text5 . $text6 . $text7 . $text8 . $text9;
+        echo  $text1 . $text2. $text3 . $text4 . $text5 . $text6 . $text7 . $text8 . $text9;
     }
 
     /**

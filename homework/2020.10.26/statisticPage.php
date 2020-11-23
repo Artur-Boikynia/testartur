@@ -20,11 +20,11 @@ if (!$linkForShow) {
 }
 
 $sqlForShow = <<< SQL
-SELECT user_name, COUNT(1) AS usercont, DATE_FORMAT(update_at,'%Y-%m-%d') AS date
+SELECT user_name, COUNT(1) AS usercont, update_at
 FROM user_log
-GROUP BY user_name, date
-HAVING date = CURRENT_DATE;
-SQL;
+WHERE update_at = CURRENT_DATE
+GROUP BY user_name, update_at;
+SQL;                              //fixed
 
 $stmtForShow = mysqli_prepare($linkForShow, $sqlForShow);
 mysqli_stmt_execute($stmtForShow);
@@ -88,36 +88,40 @@ mysqli_close($linkForShow);
         <th scope="col">Date</th>
     </tr>
     </thead>
-    <?php for($i = 0; $i < count($arrayForTable); $i++) : ?>
-        <?php $col= $i+1;
-        (int) $sumOfVisits += $arrayForTable[$i][1];
-        ?>
+
+    <?php
+    $countFor = count($arrayForTable);                              //fixed
+        for($i = 0; $i < $countFor; $i++) :
+            $col= $i+1;
+            (int) $sumOfVisits += $arrayForTable[$i][1];
+    ?>
     <tbody>
         <tr>
-            <th scope="row"><?=$col?></th>
-            <td><?= $arrayForTable[$i][0]?></td>
-            <td><?= $arrayForTable[$i][1]?></td>
-            <td><?= $arrayForTable[$i][2]?></td>
+            <th scope="row"><?= $col ?></th>
+            <td><?= $arrayForTable[$i][0] ?></td>
+            <td><?= $arrayForTable[$i][1] ?></td>
+            <td><?= $arrayForTable[$i][2] ?></td>
         </tr>
     </tbody>
     <?php endfor; ?>
 </table>
 
 <table style="width: 100%">
-    <?php for($i = 0; $i < count($arrayForTable); $i++) : ?>
-        <?php
-        $col= $i+1;
-         $percent = round((($arrayForTable[$i][1] / $sumOfVisits) * 100), 1);
-        ?>
-        <tr style="width: 100%">
-            <td style="width: 10%; text-align: center"><?= $arrayForTable[$i][0]?></td>
-            <td style="width: 90%">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: <?=$percent?>%;" aria-valuenow="<?=$percent?>" aria-valuemin="0" aria-valuemax="100"><?=$percent?>%</div>
-                </div>
-            </td>
-        </tr>
-    <?php endfor; ?>
+    <?php
+        $countFor = count($arrayForTable);                   //fixed
+        for($i = 0; $i < $countFor; $i++) :
+            $col= $i+1;
+            $percent = round((($arrayForTable[$i][1] / $sumOfVisits) * 100), 1);
+    ?>
+            <tr style="width: 100%">
+                <td style="width: 10%; text-align: center"><?= $arrayForTable[$i][0]?></td>
+                <td style="width: 90%">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: <?=$percent?>%;" aria-valuenow="<?=$percent?>" aria-valuemin="0" aria-valuemax="100"><?=$percent?>%</div>
+                    </div>
+                </td>
+            </tr>
+        <?php endfor; ?>
 </table>
 </body>
 </html>

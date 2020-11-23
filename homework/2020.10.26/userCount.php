@@ -24,8 +24,8 @@ if (!$linkDb) {
 }
 
 $sqlCount = <<< SQL
-INSERT INTO user_log values (? , CURRENT_TIMESTAMP)
-SQL;
+INSERT INTO user_log (`user_name`, `update_at`) values (? , CURRENT_TIMESTAMP)
+SQL;          //fixed
 
 $stmtCount = mysqli_prepare($linkDb, $sqlCount);
 mysqli_stmt_bind_param($stmtCount, 's',$nameOfUserCount);

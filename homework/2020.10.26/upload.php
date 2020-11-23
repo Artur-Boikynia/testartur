@@ -34,7 +34,9 @@ $arrayOfForbiddenTypes = [
     'image/png',
 ];
 
-for ($i = 0; $i < count($attachment); $i++ ){
+$countFor = count($attachment);                                             //fixed
+
+for ($i = 0; $i < $countFor; $i++ ){
     if($attachment[$i]['size'] > 1e6){                                      // size of file must to be under then 1 MB
        exit("File {$attachment[$i]['name']} is too large. Choose another file with size under 1 MB");
     }

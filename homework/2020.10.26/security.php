@@ -1,6 +1,6 @@
 <?php
 session_start();
-$config = require_once __DIR__ .'/config.php';
+$config = require __DIR__ .'/config.php';
 $webWay = rtrim($config['web'],'/');
 
 $isUser = !isset($_SESSION['user']);

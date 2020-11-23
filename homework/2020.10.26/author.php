@@ -8,23 +8,14 @@ if (!$login || !$password) {
     exit('Login and password are required');
 }
 
-$config = require __DIR__ . '/config.php';
-$link = mysqli_connect(
-    $config['db']['host'],
-    $config['db']['user'],
-    $config['db']['password'],
-    $config['db']['db'],
-);
+require_once __DIR__ . '/connect_to_db.php'; // fixed
 
-if (!$link) {
-    echo "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL;
-    echo "Код ошибки errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Текст ошибки error: " . mysqli_connect_error() . PHP_EOL;
-    exit;
-}
-
+/**
+ * @var $linkDb
+ * is seted in file "connect_to_db.php"
+ */
 $sql = "SELECT * FROM logins WHERE login = ?";
-$stmt = mysqli_prepare($link, $sql);  // підготовлює SQL  запрос
+$stmt = mysqli_prepare($linkDb, $sql);  // підготовлює SQL  запрос
 mysqli_stmt_bind_param($stmt, 's',$login); // Привязка переменных к параметрам подготавливаемого запроса
 mysqli_stmt_execute($stmt); // Выполняет подготовленный запрос
 $result = mysqli_stmt_get_result($stmt);  // Получает результат из подготовленного запроса

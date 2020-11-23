@@ -1,23 +1,8 @@
 <?php
 session_start();
 $loginUser = $_SESSION['user'];
-require_once __DIR__ .'/security.php';
 require_once __DIR__ .'/userCount.php';
-$configForShow = require __DIR__ . '/config.php';
-
-$linkForShow = mysqli_connect(
-    $configForShow['db']['host'],
-    $configForShow['db']['user'],
-    $configForShow['db']['password'],
-    $configForShow['db']['db'],
-);
-
-if (!$linkForShow) {
-    echo "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL;
-    echo "Код ошибки errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Текст ошибки error: " . mysqli_connect_error() . PHP_EOL;
-    exit;
-}
+require __DIR__ . '/connect_to_db.php'; // fixed
 
 $sqlForShow = <<< SQL
 SELECT user_name, COUNT(1) AS usercont, update_at
@@ -26,14 +11,18 @@ WHERE update_at = CURRENT_DATE
 GROUP BY user_name, update_at;
 SQL;                              //fixed
 
-$stmtForShow = mysqli_prepare($linkForShow, $sqlForShow);
+/**
+ * @var $linkDb
+ */
+$stmtForShow = mysqli_prepare($linkDb, $sqlForShow);
 mysqli_stmt_execute($stmtForShow);
 $resultForShow = mysqli_stmt_get_result($stmtForShow);
 $arrayForTable = mysqli_fetch_all($resultForShow);
 
+
 mysqli_stmt_close($stmtForShow);
 
-mysqli_close($linkForShow);
+mysqli_close($linkDb);
 
 ?>
 
@@ -91,6 +80,7 @@ mysqli_close($linkForShow);
 
     <?php
     $countFor = count($arrayForTable);                              //fixed
+    (int) $sumOfVisits = 0;
         for($i = 0; $i < $countFor; $i++) :
             $col= $i+1;
             (int) $sumOfVisits += $arrayForTable[$i][1];

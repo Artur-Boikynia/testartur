@@ -17,9 +17,6 @@ function createCategory(array $data): bool
         mysqli_stmt_bind_param($stmt, 'si', $data['title'], $data['parent_category_id']);
         return mysqli_stmt_execute($stmt);
     }
-    else{
-        exit('Error 404');
-    }
 }
 
 /**

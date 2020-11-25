@@ -4,7 +4,10 @@
             <label for="parent_category_id">Select category</label>
             <select class="custom-select"  name="parent_category_id" id="parent_category_id">
                 <option value="">--</option>
-                <?php foreach (getCategories() as  $category): ?>
+                <?php
+                /** @var  $categories */
+                foreach ($categories as  $category):
+                    ?>
                     <option value="<?= $category['title'] ?>"><?= $category['title'] ?></option>
                 <?php endforeach; ?>
             </select>
@@ -18,7 +21,7 @@
             <select class="custom-select"  name="new_parent_category_id" id="new_parent_category_id">
                 <option value="">--</option>
                 <option value="none">NONE</option>
-                <?php foreach (getCategories() as  $category): ?>
+                <?php foreach ($categories as  $category): ?>
                     <option value="<?= $category['id'] ?>"><?= $category['title'] ?></option>
                 <?php endforeach; ?>
             </select>

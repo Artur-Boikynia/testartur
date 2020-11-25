@@ -1,6 +1,3 @@
-<?php
-$categories = getCategories();
-?>
 <table class="table">
     <thead class="thead-dark">
     <tr>
@@ -13,6 +10,7 @@ $categories = getCategories();
     </thead>
     <tbody>
     <?php
+    /** @var  $categories */
         $countFor = count($categories);       //fixed
         for($i=0; $i < $countFor; $i++):
     ?>

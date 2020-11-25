@@ -54,20 +54,18 @@ class Dispatcherclass implements \lib\PrepareableInterface
         $function = array_shift($this->parts);
         $function = str_replace('-', ' ', $function);
         $function = ucwords($function);
-        $function = 'action' . str_replace(' ', '', $function);
+        $function = str_replace(' ', '', $function);
         return $function;
     }
 
     /**
      * @param string $function
      */
-    public function startFunction (string $function):void{
+    public function startFunction (string $class):void{
         require_once $this->file;
-
-        if (!function_exists($function)) {
-            exit("Action doesn't exist");
+        if (!class_exists($class)) {
+            exit("Action doesn't existtt");
         }
-
-        $function();
+        /////////
     }
 }

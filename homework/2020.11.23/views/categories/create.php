@@ -12,7 +12,7 @@
             <label for="parent_category_id">Check category</label>
             <select class="custom-select"  name="parent_category_id" id="parent_category_id">
                 <option value="">--</option>
-                <?php foreach (getCategories() as  $category): ?>
+                <?php foreach ($categoriesArray as  $category): ?>
                     <option value="<?= $category['id'] ?>"><?= $category['title'] ?></option>
                 <?php endforeach; ?>
             </select>

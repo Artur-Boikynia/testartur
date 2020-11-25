@@ -3,7 +3,10 @@
         <div class="mb-3">
             <select class="custom-select"  name="title" id="title">
                 <option value="">--</option>
-                <?php foreach (getCategories() as  $category): ?>
+                <?php
+                /** @var  $categoriesArray */
+                foreach ($categoriesArray as  $category):
+                    ?>
                     <option value="<?= $category['title'] ?>"><?= $category['title'] ?></option>
                 <?php endforeach; ?>
             </select>

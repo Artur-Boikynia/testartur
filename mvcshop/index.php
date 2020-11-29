@@ -6,20 +6,17 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+
 $dispatcher = new \app\components\Dispatcher($_SERVER['REQUEST_URI']);
-/*var_dump(
-    $dispatcher->getParams()
-);*/
+
+
 
 $pre = new app\controllers\Route($dispatcher);
 
 
+//(new \app\controllers\ProductCategory())->actionEdit($dispatcher,0, 0);       // vriant №1
 
-(new \app\controllers\ProductCategory())->actionEdit(7,5);
-//$dispatcher->getParams();
-
-
-
+(new \app\controllers\ProductCategory())->actionEdit(22222, 111111);               // variant №2
 
 
 

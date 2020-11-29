@@ -35,7 +35,7 @@ class Dispatcher
     /**
      * @var array
      */
-    private array $params = [];
+    protected array $params = [];
 
     /**
      * Dispatcher constructor.
@@ -48,6 +48,8 @@ class Dispatcher
         $this->setAddress($address);
 
         $this->dispatch();
+
+
     }
 
     /**
@@ -87,7 +89,7 @@ class Dispatcher
         $this->address = StringsHelper::trim($address, $this->separator);
     }
 
-    private function dispatch(): void
+    protected function dispatch(): void
     {
         $parts = explode($this->separator, StringsHelper::trim($this->address, $this->separator));
 
@@ -102,7 +104,7 @@ class Dispatcher
     /**
      * @param array $parts
      */
-    private function setParams(array $parts): void
+    protected function setParams(array $parts): void
     {
         $keys = [];
         $values = [];
@@ -117,7 +119,6 @@ class Dispatcher
         if (count($keys) > count($values)) {
             $values[] = null;
         }
-
         $this->params = array_merge(array_combine($keys, $values), $_GET);
     }
 }

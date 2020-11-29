@@ -2,8 +2,10 @@
 namespace app\controllers;
 
 
+use app\components\Dispatcher;
 use app\controllers\Route;
-use http\Header;
+use app\helpers\StringsHelper;
+
 
 /**
  * Class ProductCategory
@@ -31,29 +33,50 @@ class ProductCategory
 
     }
 
-  /*  public function actionEdit(?int $p1 = null, ?int $p2 = null){
-        (array) $array = Route::getGetParam();
+    /**
+     * @param Dispatcher|null $dispatcher
+     * @param int|null $p1
+     * @param int|null $p2
+     * @return Dispatcher
+     */
+   /*public function actionEdit( ?Dispatcher &$dispatcher, ?int $p1 = null, ?int $p2 = null):Dispatcher{
 
-        if(count($array) > 2){
-            exit('Must be not more than two parameters');
+       (array)$array = Route::getGetParam();
+
+       if (count($array) > 2) {
+           exit('Must be not more than two parameters');
+       }
+       if (empty($array)) {
+           exit('No parameters were passed');
+       }
+
+       if (!array_key_exists('p1', $array)) {
+           exit('Parameter p1 was not passed ');
+       }
+
+       if (!array_key_exists('p2', $array)) {
+           exit('Parameter p2 was not passed ');
+       }
+
+        if($p1 === null || $p2 === null){
+            $dispatcher = new Dispatcher($_SERVER['REQUEST_URI']);
+            $this->showFunction($dispatcher->getParams());
+            return $dispatcher;
         }
-        if(empty($array)){
-            exit('No parameters were passed');
+        else{
+            $_GET['p1'] = $p1;
+            $_GET['p2'] = $p2;
+            $dispatcher = new Dispatcher($_SERVER['REQUEST_URI']);
+            $this->showFunction($dispatcher->getParams());
+            return $dispatcher;
         }
-        if(!array_key_exists('p1',$array)){
-            exit('Parameter p1 was not passed ');
-        }
-        if(!array_key_exists('p2',$array)){
-            exit('Parameter p2 was not passed ');
-        }
-        $_GET['p1'] = 100;
-        var_dump($_GET);
     }*/
+
     /**
      *
      */
-//?int $p1 = null, ?int $p2 = null
-   public function actionEdit(?int $p1 = null, ?int $p2 = null)
+
+    public function actionEdit(?int $p1 = null, ?int $p2 = null)
    {
        (array)$array = Route::getGetParam();
 
@@ -73,8 +96,9 @@ class ProductCategory
        $actual_link = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
        $url_parts = parse_url($actual_link);
        parse_str($url_parts['query'], $params);
-       if ((int)$params['p1'] === $p1 && (int)$params['p2'] === $p2) {
 
+       if ((int)$params['p1'] === $p1 && (int)$params['p2'] === $p2) {
+            var_dump($params);
            exit();
        }
 
@@ -82,8 +106,8 @@ class ProductCategory
        $params['p2'] = $p2;
        $url_parts['query'] = http_build_query($params);
 
-       if ($p1 === null && $p2 === null) {
-           exit('null');
+       if ($p1 === null || $p2 === null) {
+           exit('Parameters not entered');
        }
        else {
            $newUrl = $url_parts['scheme'] . '://' . $url_parts['host'] . $url_parts['path'] . '?' . $url_parts['query'];
@@ -93,11 +117,15 @@ class ProductCategory
    }
 
 
-
-//        foreach ( $array as $key => $value){
-//            echo "actionEdit() have GET-parameter \"{$key}\" with value \"{$value}\" </br>";
-//        }
-
+    /**
+     * @param array $array
+     */
+    private function showFunction(array $array):void{
+        $action = Route::getAction();
+        foreach ( $array as $key => $value){
+            echo "{$action} have GET-parameter \"{$key}\" with value \"{$value}\" </br>";
+        }
+    }
 
     /**
      *

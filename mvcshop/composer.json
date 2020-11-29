@@ -1,15 +1,8 @@
 {
-  "name": "vendor_name/mvcshop",
-  "description": "description",
-  "minimum-stability": "stable",
-  "license": "proprietary",
-  "authors": [
-    {
-      "name": "artur",
-      "email": "email@example.com"
-    }
-  ],
   "require": {
-    
+    "php": ">=7.4.0"
+  },
+  "autoload": {
+    "psr-4": {"app\\": ""}
   }
 }

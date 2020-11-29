@@ -1,0 +1,15 @@
+{
+  "name": "vendor_name/mvcshop",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "artur",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    
+  }
+}

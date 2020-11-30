@@ -95,7 +95,7 @@ class ProductCategory
      * @param int $limit
      * @param array|string[] $propertys
      */
-    private function checkParams(array $array, int $limit, array $propertys = ['p1','p2']){
+    private function checkParams(array $array, int $limit, array $propertys = ['p1','p2']):void{
         if (count($array) > $limit) {
             exit("Must be not more than {$limit} parameters");
         }
@@ -121,7 +121,7 @@ class ProductCategory
     /**
      *
      */
-    private function checkMethod(){
+    private function checkMethod():void{
         $this->method = Route::getAction();
         $bool = method_exists('\app\controllers\ProductCategory', $this->method );
         if($bool === false){
@@ -133,7 +133,7 @@ class ProductCategory
      * @param string $nameOfCategory
      * @param string $separator
      */
-    private function checkCategory(string $nameOfCategory, string $separator = '\\'){
+    private function checkCategory(string $nameOfCategory, string $separator = '\\'):void{
         $className = explode($separator, __CLASS__);
         $stringClass = end($className);
         if ($nameOfCategory !== $stringClass){

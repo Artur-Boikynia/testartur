@@ -23,7 +23,7 @@ class Route
     /**
      * @var array
      */
-    private static array $getParam= array();
+    private static array $getParam = array();
 
     /**
      * Route constructor.

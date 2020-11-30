@@ -39,24 +39,11 @@ class ProductCategory
      * @param int|null $p2
      * @return Dispatcher
      */
-   /*public function actionEdit( ?Dispatcher &$dispatcher, ?int $p1 = null, ?int $p2 = null):Dispatcher{
+   public function actionEdit( ?Dispatcher &$dispatcher, ?int $p1 = null, ?int $p2 = null):Dispatcher{
 
        (array)$array = Route::getGetParam();
 
-       if (count($array) > 2) {
-           exit('Must be not more than two parameters');
-       }
-       if (empty($array)) {
-           exit('No parameters were passed');
-       }
-
-       if (!array_key_exists('p1', $array)) {
-           exit('Parameter p1 was not passed ');
-       }
-
-       if (!array_key_exists('p2', $array)) {
-           exit('Parameter p2 was not passed ');
-       }
+       $this->checkParams($array,2, ['p1','p2']);
 
         if($p1 === null || $p2 === null){
             $dispatcher = new Dispatcher($_SERVER['REQUEST_URI']);
@@ -70,29 +57,16 @@ class ProductCategory
             $this->showFunction($dispatcher->getParams());
             return $dispatcher;
         }
-    }*/
+    }
 
     /**
      *
      */
 
-    public function actionEdit(?int $p1 = null, ?int $p2 = null)
-   {
+    /*public function actionEdit(?int $p1 = null, ?int $p2 = null):void{
        (array)$array = Route::getGetParam();
 
-       if (count($array) > 2) {
-           exit('Must be not more than two parameters');
-       }
-       if (empty($array)) {
-           exit('No parameters were passed');
-       }
-       if (!array_key_exists('p1', $array)) {
-           exit('Parameter p1 was not passed ');
-       }
-       if (!array_key_exists('p2', $array)) {
-           exit('Parameter p2 was not passed ');
-       }
-
+       $this->checkParams($array,2, ['p1','p2']);
        $actual_link = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
        $url_parts = parse_url($actual_link);
        parse_str($url_parts['query'], $params);
@@ -114,9 +88,26 @@ class ProductCategory
            header("Location: $newUrl");
            exit;
        }
-   }
+   }*/
 
-
+    /**
+     * @param array $array
+     * @param int $limit
+     * @param array|string[] $propertys
+     */
+    private function checkParams(array $array, int $limit, array $propertys = ['p1','p2']){
+        if (count($array) > $limit) {
+            exit("Must be not more than {$limit} parameters");
+        }
+        if (empty($array)) {
+            exit('No parameters were passed');
+        }
+        foreach ($propertys as $value){
+            if (!array_key_exists($value, $array)) {
+                exit("Parameter  was not passed");
+            }
+        }
+    }
     /**
      * @param array $array
      */

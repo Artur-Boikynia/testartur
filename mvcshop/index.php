@@ -14,9 +14,9 @@ $dispatcher = new \app\components\Dispatcher($_SERVER['REQUEST_URI']);
 $pre = new app\controllers\Route($dispatcher);
 
 
-//(new \app\controllers\ProductCategory())->actionEdit($dispatcher,0, 0);       // vriant №1
+(new \app\controllers\ProductCategory())->actionEdit($dispatcher,8, 1);       // vriant №1
 
-(new \app\controllers\ProductCategory())->actionEdit(22222, 111111);               // variant №2
+//(new \app\controllers\ProductCategory())->actionEdit(11111,656757);               // variant №2
 
 
 

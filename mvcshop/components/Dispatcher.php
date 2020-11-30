@@ -89,7 +89,7 @@ class Dispatcher
         $this->address = StringsHelper::trim($address, $this->separator);
     }
 
-    protected function dispatch(): void
+    private function dispatch(): void
     {
         $parts = explode($this->separator, StringsHelper::trim($this->address, $this->separator));
 
@@ -104,7 +104,7 @@ class Dispatcher
     /**
      * @param array $parts
      */
-    protected function setParams(array $parts): void
+    private function setParams(array $parts): void
     {
         $keys = [];
         $values = [];

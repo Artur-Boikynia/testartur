@@ -1,5 +1,4 @@
 <?php
-
 namespace app\components;
 
 use app\helpers\StringsHelper;
@@ -36,7 +35,7 @@ class Dispatcher
     /**
      * @var array
      */
-    private array $params = [];
+    protected array $params = [];
 
     /**
      * Dispatcher constructor.
@@ -49,6 +48,8 @@ class Dispatcher
         $this->setAddress($address);
 
         $this->dispatch();
+
+
     }
 
     /**
@@ -92,10 +93,12 @@ class Dispatcher
     {
         $parts = explode($this->separator, StringsHelper::trim($this->address, $this->separator));
 
+
         $this->controller = array_shift($parts) ?: self::DEFAULT_CONTROLLER;
         $this->action = array_shift($parts) ?: self::DEFAULT_ACTION;
 
         $this->setParams($parts);
+
     }
 
     /**
@@ -116,9 +119,6 @@ class Dispatcher
         if (count($keys) > count($values)) {
             $values[] = null;
         }
-
         $this->params = array_merge(array_combine($keys, $values), $_GET);
-
-        StringsHelper::arrayToLowRegister($this->params);
     }
 }

@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 error_reporting(E_ALL);
 
+use app\components\App;
+
 require_once __DIR__ . '/vendor/autoload.php';
 
-
-$dispatcher = new \app\components\Dispatcher($_SERVER['REQUEST_URI']);
-
-
-
-$pre = new app\controllers\Route($dispatcher);
-
-
-(new \app\controllers\ProductCategory())->actionEdit($dispatcher,8, 1);       // vriant №1
-
-//(new \app\controllers\ProductCategory())->actionEdit(11111,656757);               // variant №2
+$config = require __DIR__ . '/configs/web.php';
+(new App($config))->run();
 
 
 
@@ -25,4 +18,7 @@ $pre = new app\controllers\Route($dispatcher);
 // Generate action method: actionEdit
 // (new \app\controllers\ProductCategoryController())->actionEdit($p1, $p2);
 
-?>
+
+// регистронезависимые параметры
+// 'components.db.host' должен вернуть значение из $this->config['components']['db']['host']
+// реализовать проброс класса App в контроллеры и реализовать шаблонизатор через буфферизацию вывода

@@ -1,82 +1,108 @@
 <?php
+namespace homework;
 
+use homework;
 
-class Mentor extends Student
+/**
+ * Class Mentor
+ * @package homework
+ */
+class Mentor
 {
-    private string $nameOfMentor = 'default';
-    private $title = 'default';
-    private $statusOfChek = 'No checked';
+    /**
+     * @var string
+     */
+    private string $nameOfMentor = '';
+    /**
+     * @var string
+     */
+    private string $nameOfStudent = '';
+    /**
+     * @var \homework\Homework|null
+     */
+    private ?\homework\Homework $homework = null;
+    /**
+     * @var Student|null
+     */
+    private ? Student $student = null;
 
     /**
-     * @param string $name
-     * @param string $title
-     * @param string $statusOfCheck
-     * @return string[]
+     * Mentor constructor.
      */
-    public function setNameAndTitleOfMentor(string $name, string $title, string $studentName): void{
-
-        $this->setNameOfMentor($name);
-        $this->setTitle($title);
-        $this->setStatusOfchek($this->statusOfChek);
-        $this->memory[$studentName]['nameofmentor'] = $this->getNameOfMentor();
-        $this->memory[$studentName]['title'] = $this->getTitle();
-        $this->memory[$studentName]['statusofcheck'] = $this->getStatusOfchek();
+    public function __construct(){
 
     }
 
-    public function updateStatusOfCheck(string $newStatus, string $studentName):void{
-        $this->setStatusOfChek($newStatus);
-        $this->memory[$studentName]['statusofcheck'] = $this->getStatusOfChek();
-    }
-
     /**
-     * @param string $title
+     * @param $nameOfMentor
+     * @param $nameOfStudent
      */
-    private function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTitle(): string
-    {
-        return $this->title;
-    }
-
-
-    /**
-     * @param string $nameOfMentor
-     */
-    private function setNameOfMentor(string $nameOfMentor): void
-    {
+    public function giveTask($nameOfMentor, $nameOfStudent):void{
         $this->nameOfMentor = $nameOfMentor;
-    }
-
-
-    /**
-     * @return string
-     */
-    protected function getNameOfMentor(): string
-    {
-        return $this->nameOfMentor;
+        $this->nameOfStudent = $nameOfStudent;
+        $this->homework = new \homework\Homework($nameOfMentor, $nameOfStudent);
     }
 
     /**
-     * @return string
+     * @param bool $bool
+     * @throws CheckExceptions
      */
-    protected function getStatusOfChek(): string
-    {
-        return $this->statusOfChek;
+    public function setMentorStatus( bool $bool):void{
+        $studentStatus = $this->homework->isStudentStatus();
+
+        if($this->homework === null){
+            exit('Homework was not given');
+        }
+        if (!$studentStatus && $bool === true){
+            $this->homework->setMentorStatus(false);
+            throw new CheckExceptions('You can not set Mentor-Status TRUE(checked), because student NOT done the task yet');
+        }
+
+        $this->homework->setMentorStatus($bool);
     }
 
     /**
-     * @param string $statusOfChek
+     * @param bool $bool
      */
-    private function setStatusOfChek(string $statusOfChek): void
-    {
-        $this->statusOfChek = $statusOfChek;
+    public function setStudentStatus( bool $bool){
+        if($this->homework !== null){
+            $this->homework->setStudentStatus($bool);
+        }
+        else{
+            exit('Homework was not given');
+        }
+    }
+
+    /**
+     *
+     */
+    public function showInfo():void{
+        $mentorStatus= $this->homework->isMentorStatus();
+        $studentStatus = $this->homework->isStudentStatus();
+        $mentorName = $this->nameOfMentor;
+        $studentName = $this->nameOfStudent;
+
+        if(!empty($mentorName) && !empty($studentName)){
+            echo "Mentor \"{$mentorName}\" gave the task for student \"{$studentName}\" </br>";
+        }
+        else{
+            exit('Task was not set');
+        }
+
+        if($studentStatus){
+            echo "Student \"{$studentName}\" DONE the task </br>";
+        }
+        else{
+            echo "Mentor \"{$studentName}\" didn`t do the task yet </br>";
+        }
+
+
+        if($mentorStatus){
+            echo "Mentor \"{$mentorName}\" checked the task </br>";
+        }
+        else{
+            echo "Mentor \"{$mentorName}\" haven`t checked the task yet </br>";
+        }
     }
 
 

@@ -1,120 +1,69 @@
 <?php
+namespace homework;
 
-
-class Homework extends Mentor
+/**
+ * Class Homework
+ * @package homework
+ */
+class Homework
 {
-    private string $taskName = 'default';
-    private string $taskBegin = 'none';
-    private string $deadLine = 'none';
+    /**
+     * @var string
+     */
+    private string $nameOfMentor = '';
+    /**
+     * @var string
+     */
+    private string $nameOfStudent = '';
+    /**
+     * @var bool
+     */
+    private bool $studentStatus = false;
+    /**
+     * @var bool
+     */
+    private bool $mentorStatus = false;
 
     /**
-     * @param string $taskName
-     * @param string $studentName
-     * @param int $daysDuration
+     * Homework constructor.
+     * @param $nameOfMentor
+     * @param $nameOfStudent
      */
-    public function  homeworkSet (string $taskName, string $studentName, int $daysDuration ):void{
-
-        $nowDate = time();
-        $this->setTaskBegin(date('Y-m-d H:i:s',$nowDate));
-        $this->setTaskName($taskName);
-        $this->setDeadLine(date('Y-m-d H:i:s',$nowDate + $daysDuration * 24 * 3600));
-        $this->memory[$studentName]['taskName'] = $this->getTaskName();
-        $this->memory[$studentName]['taskBegin'] = $this->getTaskBegin();
-        $this->memory[$studentName]['deadline'] = $this->getDeadLine();
+    public function __construct($nameOfMentor, $nameOfStudent){
+        $this->nameOfMentor = $nameOfMentor;
+        $this->nameOfStudent = $nameOfStudent;
     }
 
     /**
-     * @param string $studentName
+     * @param bool $studentStatus
      */
-    public function monitoringOfProcess(string $studentName): void{
-        $taskStatus = $this->memory[$studentName]['statusoftask'] ;
-        $checkStatus = $this->memory[$studentName]['statusofcheck'] ;
-
-        if($taskStatus === 'done' && $checkStatus === 'No checked'){
-            $text =  "Mentor {$this->memory[$studentName]['nameofmentor']}  can begin to check task \"{$this->memory[$studentName]['taskName']}\" ";
-            echo $text;
-            }
-        elseif ($checkStatus === 'processing' && $taskStatus === 'done'){
-             $text =  " Task \"{$this->memory[$studentName]['taskName']}\" is in PROCESSING <br/>";
-             echo $text;
-             $this->printData($studentName);
-        }
-        elseif ($checkStatus === 'checked' &&  $taskStatus == 'done'){
-            $text = " {$this->memory[$studentName]['nameofstudent']}, your task \"{$this->memory[$studentName]['taskName']}\" is already checked, you can find result in Campus ";
-            echo $text ;
-        }
-        else{
-            $text = "Student {$this->memory[$studentName]['nameofstudent']} has not yet done  task \"{$this->memory[$studentName]['taskName']}\" <br/><br/> ";
-            echo $text ;
-            $this->printData($studentName);
-        }
-    }
-
-    /**
-     * @param string $studentName
-     */
-    private function printData (string $studentName){
-
-        $text1 =  "Data for Home : <br/>";
-        $text2 =  "Student : {$this->memory[$studentName]['nameofstudent']} <br/>";
-        $text3 =  "Group : {$this->memory[$studentName]['group']} <br/>";
-        $text4 =  "Status of task  : {$this->memory[$studentName]['statusoftask']} <br/>";
-        $text5 =  "Mentor  : {$this->memory[$studentName]['title']} {$this->memory[$studentName]['nameofmentor']} <br/>";
-        $text6 =  "Status of check  : {$this->memory[$studentName]['statusofcheck']} <br/>";
-        $text7 =  "Task  : {$this->memory[$studentName]['taskName']} <br/>";
-        $text8 =  "Start  : {$this->memory[$studentName]['taskBegin']} <br/>";
-        $text9 =  "Deadline  : {$this->memory[$studentName]['deadline']} <br/>" ;
-
-        echo  $text1 . $text2. $text3 . $text4 . $text5 . $text6 . $text7 . $text8 . $text9;
-    }
-
-    /**
-     * @param string $deadLine
-     */
-    private function setDeadLine(string $deadLine): void
+    public function setStudentStatus(bool $studentStatus): void
     {
-        $this->deadLine = $deadLine;
+        $this->studentStatus = $studentStatus;
     }
 
     /**
-     * @return int
+     * @param bool $mentorStatus
      */
-    private function getDeadLine(): string
+    public function setMentorStatus(bool $mentorStatus): void
     {
-        return $this->deadLine;
+        $this->mentorStatus = $mentorStatus;
     }
 
     /**
-     * @param int $taskBegin
+     * @return bool
      */
-    private function setTaskBegin(string $taskBegin): void
+    public function isStudentStatus(): bool
     {
-        $this->taskBegin = $taskBegin;
+        return $this->studentStatus;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    private function getTaskBegin(): string
+    public function isMentorStatus(): bool
     {
-        return $this->taskBegin;
+        return $this->mentorStatus;
     }
-
-    /**
-     * @param string $taskName
-     */
-    private function setTaskName(string $taskName): void
-    {
-        $this->taskName = $taskName;
-    }
-
-    /**
-     * @return string
-     */
-    private function getTaskName(): string
-    {
-        return $this->taskName;
-    }
-
 
 }

@@ -529,7 +529,7 @@ var Button = function ($) {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.0.0-beta): carousel.js
+ * Bootstrap (v4.0.0-beta): css.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -544,7 +544,7 @@ var Carousel = function ($) {
 
   var NAME = 'carousel';
   var VERSION = '4.0.0-beta';
-  var DATA_KEY = 'bs.carousel';
+  var DATA_KEY = 'bs.css';
   var EVENT_KEY = '.' + DATA_KEY;
   var DATA_API_KEY = '.data-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
@@ -591,21 +591,21 @@ var Carousel = function ($) {
     CAROUSEL: 'carousel',
     ACTIVE: 'active',
     SLIDE: 'slide',
-    RIGHT: 'carousel-item-right',
-    LEFT: 'carousel-item-left',
-    NEXT: 'carousel-item-next',
-    PREV: 'carousel-item-prev',
-    ITEM: 'carousel-item'
+    RIGHT: 'css-item-right',
+    LEFT: 'css-item-left',
+    NEXT: 'css-item-next',
+    PREV: 'css-item-prev',
+    ITEM: 'css-item'
   };
 
   var Selector = {
     ACTIVE: '.active',
-    ACTIVE_ITEM: '.active.carousel-item',
-    ITEM: '.carousel-item',
-    NEXT_PREV: '.carousel-item-next, .carousel-item-prev',
-    INDICATORS: '.carousel-indicators',
+    ACTIVE_ITEM: '.active.css-item',
+    ITEM: '.css-item',
+    NEXT_PREV: '.css-item-next, .css-item-prev',
+    INDICATORS: '.css-indicators',
     DATA_SLIDE: '[data-slide], [data-slide-to]',
-    DATA_RIDE: '[data-ride="carousel"]'
+    DATA_RIDE: '[data-ride="css"]'
 
     /**
      * ------------------------------------------------------------------------
@@ -754,9 +754,9 @@ var Carousel = function ($) {
         });
         if ('ontouchstart' in document.documentElement) {
           // if it's a touch-enabled device, mouseenter/leave are fired as
-          // part of the mouse compatibility events on first tap - the carousel
+          // part of the mouse compatibility events on first tap - the css
           // would stop cycling until user tapped out of it;
-          // here, we listen for touchend, explicitly pause the carousel
+          // here, we listen for touchend, explicitly pause the css
           // (as if it's the second time we tap on it, mouseenter compat event
           // is NOT fired) and after a timeout (to allow for mouse compatibility
           // events to fire) we explicitly restart cycling

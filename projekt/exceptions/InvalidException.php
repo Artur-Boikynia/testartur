@@ -3,8 +3,8 @@
 
 namespace app\exceptions;
 
-
-class InvalidException
+use Exception;
+class InvalidException extends Exception
 {
 
 }

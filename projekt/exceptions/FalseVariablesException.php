@@ -3,8 +3,8 @@
 
 namespace app\exceptions;
 
-
-class FalseVariablesException
+use Exception;
+class FalseVariablesException extends Exception
 {
 
 }

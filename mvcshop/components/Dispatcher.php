@@ -119,6 +119,5 @@ class Dispatcher
 
         $this->params = array_merge(array_combine($keys, $values), $_GET);
 
-        StringsHelper::arrayToLowRegister($this->params);
     }
 }

@@ -7,7 +7,7 @@ namespace app\helper;
  * Class getParts
  * @package app\helper
  */
-class getParts
+class GetParts
 {
     /**
      * @param string $uri

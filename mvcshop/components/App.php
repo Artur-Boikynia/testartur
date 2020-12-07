@@ -1,10 +1,10 @@
 <?php
 
-
 namespace app\components;
 
 use app\exceptions\InvalidConfigException;
 use app\exceptions\NotFoundException;
+use app\helpers\ArraysHelper;
 
 /**
  * Class App
@@ -12,6 +12,11 @@ use app\exceptions\NotFoundException;
  */
 class App
 {
+    /**
+     * @var App|null
+     */
+    private static ?App $instance = null;
+
     private array $config;
 
     /**
@@ -20,23 +25,84 @@ class App
     private ?Template $template = null;
 
     /**
+     * @var User|null
+     */
+    private ?User $user = null;
+
+    /**
      * App constructor.
      * @param array $config
      */
-    public function __construct(array $config)
+    private function __construct(array $config)
     {
         $this->config = $config;
     }
 
-    public function run(): void
+    private function __clone()
+    {
+    }
+
+    /**
+     * @param array $config
+     * @throws InvalidConfigException
+     */
+    public static function init(array $config)
+    {
+        if (self::$instance !== null) {
+            throw new InvalidConfigException('Application is initiated already');
+        }
+
+        self::$instance = new self($config);
+        self::$instance->run();
+    }
+
+    /**
+     * @return static
+     * @throws InvalidConfigException
+     */
+    public static function get(): self
+    {
+        if (self::$instance === null) {
+            throw new InvalidConfigException('Application is not initiated yet');
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * @return Template
+     * @throws InvalidConfigException
+     */
+    public function template(): Template
+    {
+        if ($this->template === null) {
+            throw new InvalidConfigException('Template component is not initiated yet');
+        }
+
+        return $this->template;
+    }
+
+    /**
+     * @return User
+     * @throws InvalidConfigException
+     */
+    public function user(): User
+    {
+        if ($this->template === null) {
+            throw new InvalidConfigException('User component is not initiated yet');
+        }
+
+        return $this->user;
+    }
+
+    private function run(): void
     {
         try {
             $this
-                ->initRouter()
                 ->initDb()
-                ->initTemplate();
-
-
+                ->initUser()
+                ->initTemplate()
+                ->initRouter();
         } catch (InvalidConfigException $exception) {
             echo $exception->getMessage();
         } catch (NotFoundException $exception) {
@@ -72,86 +138,46 @@ class App
         $password = $this->getConfigValue('components.db.password');
         $name = $this->getConfigValue('components.db.name');
 
-        var_dump($host);
-        var_dump($user);
-        var_dump($password);
-        var_dump($name);
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    private function initUser(): self
+    {
+        $this->user = new User();
 
         return $this;
     }
 
-    private function initTemplate()
+    /**
+     * @return $this
+     * @throws InvalidConfigException
+     */
+    private function initTemplate(): self
     {
-        if (!isset($this->config['components']['template']['viewsDir'])) {
+        $viewsDir = $this->getConfigValue('components.template.viewsDir');
+        if (!$viewsDir) {
             throw new InvalidConfigException('Key "components.template.viewsDir" is required');
         }
-        if (!isset($this->config['components']['template']['layout'])) {
+
+        $layout = $this->getConfigValue('components.template.layout');
+        if (!$layout) {
             throw new InvalidConfigException('Key "components.template.layout" is required');
         }
 
-        $this->template = new Template(
-            $this->config['components']['template']['viewsDir'],
-            $this->config['components']['template']['layout']
-        );
+        $this->template = new Template($viewsDir, $layout);
+
+        return $this;
     }
 
     /**
      * @param string $address
-     * @param string $delimiter
-     * @return string
-     * @throws InvalidConfigException
+     * @return array|mixed|null
      */
-    private function getConfigValue(string $address,  string $delimiter = '.'):string
+    private function getConfigValue(string $address)
     {
-        $partsOfArray = explode($delimiter, $address);
-        $nestedQuantity = count($partsOfArray);
-
-        return $this->findValue($partsOfArray, $nestedQuantity);
-
+        return ArraysHelper::find($address, $this->config);
     }
-
-    /**
-     * @param array $partsOfArray
-     * @param int $nestedQuantity
-     * @return string
-     * @throws InvalidConfigException
-     */
-    private function findValue( array $partsOfArray, int $nestedQuantity):string{
-
-        $nestedArray = $this->config;
-
-        for ($i = 0; $i<$nestedQuantity; $i++){
-            if (!array_key_exists($partsOfArray[$i],$nestedArray)){
-                throw new InvalidConfigException("Value \"{$partsOfArray[$i]}\"  was not found");
-            }
-
-            $nestedArray = array_filter($nestedArray, static function (string $key) use ($partsOfArray, $i):bool{
-                if($partsOfArray[$i] === $key){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            },ARRAY_FILTER_USE_KEY);
-
-
-            foreach ($nestedArray as $key => $value){
-                $nestedArray = $value;
-            }
-        }
-
-        if (!is_string($nestedArray)){
-            $end = end($partsOfArray);
-            throw new InvalidConfigException("Value \"{$end}\"  must be type string");
-        }
-        if (empty($nestedArray)){
-            $end = end($partsOfArray);
-            throw new InvalidConfigException("Value \"{$end}\" is empty");
-        }
-
-        return $nestedArray;
-    }
-
-
-
 }

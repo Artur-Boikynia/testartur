@@ -81,9 +81,15 @@ final class Router
         if (!method_exists($controller, $action)) {
             throw new NotFoundException("Action {$this->dispatcher->getActionPart()} is undefined");
         }
-
+        var_dump($controller);
         $params = $this->prepareParams($controller, $action, $this->dispatcher->getParams());
-        $controller->$action(...$params);
+        $output = $controller->$action(...$params);
+
+
+        if ($output && is_string($output)) {
+            echo $output;
+            exit;
+        }
     }
 
     /**
@@ -102,10 +108,9 @@ final class Router
 
         $result = [];
         foreach ($expectedParams as $param) {
-            StringsHelper::stringToLowRegister($param->name);
             if (array_key_exists($param->name, $params)) {
                 $result[] = $params[$param->name];
-            } elseif (count($result) > $requiredParamsQuantity) {
+            } elseif (count($result) >= $requiredParamsQuantity) {
                 $result[] = null;
             } else {
                 break;
@@ -114,5 +119,4 @@ final class Router
 
         return $result;
     }
-
 }

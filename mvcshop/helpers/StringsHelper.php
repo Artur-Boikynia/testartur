@@ -28,25 +28,4 @@ class StringsHelper
         $processedName = ucwords($name, $delimiter);
         return str_replace('-', '', $processedName);
     }
-
-    /**
-     * @param array $params
-     */
-    public static function arrayToLowRegister(array &$params):void{
-        if (!empty($params)){
-            foreach ($params as $key => $value ){
-                $key = mb_strtolower($key);
-                $value = mb_strtolower($value);
-                $newParams[$key] = $value;
-            }
-            $params = $newParams;
-        }
-    }
-
-    /**
-     * @param string $param
-     */
-    public static function stringToLowRegister (string &$param):void{
-        $param = mb_strtolower($param);
-    }
 }

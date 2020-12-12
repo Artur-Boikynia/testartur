@@ -3,15 +3,23 @@
 namespace app\controllers;
 
 use app\components\AbstractController;
+use app\components\AbstractSecuredController;
+use app\components\App;
+use app\models\User;
 
 /**
  * Class GuestController
  * @package app\controllers
  */
-class GuestController extends AbstractController
+class GuestController extends AbstractSecuredController
 {
     public function actionRegistration(): string
     {
+        if ($this->request()->isPost()) {
+            $model = new User();
+            $model->load($this->request()->post());
+            exit;
+        }
         return $this->render('guest/registration', [], 'layouts/guest');
     }
 

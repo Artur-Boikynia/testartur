@@ -9,6 +9,6 @@ use app\components\App;
 class MainMenuController
 {
     public function actionMenu(){
-        App::getTemplate()->render('templates/main');
+        App::getApp()->getTemplate()->render('templates/main');
     }
 }

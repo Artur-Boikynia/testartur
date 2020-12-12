@@ -6,6 +6,8 @@ namespace app\components;
 use app\components\Dispatcher;
 use app\components\Router;
 use app\components\Template;
+use app\components\Request;
+use app\components\Validation;
 use app\exceptions\FalseVariablesException;
 
 /**
@@ -21,11 +23,15 @@ class App
     /**
      * @var \app\components\Template|null
      */
-    private static ?Template $template = null;
+    private ?Template $template = null;
     /**
      * @var string
      */
     private string $config = '';
+
+    private ?Request $request = null;
+    private ?User $user = null;
+    private ?Validation $validation = null;
 
     /**
      * App constructor.
@@ -52,10 +58,17 @@ class App
      * @throws \app\exceptions\NotFoundException
      */
     public function goApp(array $config){
+        $this->request = new Request();
+        $this->user = new User();
         $dispatcher = new Dispatcher($_SERVER['REQUEST_URI']);
-        self::$template = new Template($config);
+        $this->template = new Template($config);
         $router = new Router($dispatcher);
     }
+
+    public function setValidation( array $data, array $rules):void{
+        $this->validation = new Validation($data, $rules);
+    }
+
 
     /**
      * @return App|null
@@ -66,11 +79,19 @@ class App
     }
 
     /**
+     * @return \app\components\Request|null
+     */
+    public function getRequest(): ?\app\components\Request
+    {
+        return $this->request;
+    }
+
+    /**
      * @return \app\components\Template|null
      */
-    public static function getTemplate(): ?\app\components\Template
+    public function getTemplate(): ?\app\components\Template
     {
-        return self::$template;
+        return $this->template;
     }
 
 

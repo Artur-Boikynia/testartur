@@ -19,7 +19,7 @@ class GuestController extends AbstractController
             ->select(['id', 'name', 'password'])
             ->from('users')
             ->where([
-                ['id', 'not in', '1', '2' ,''],
+                ['id', 'not in', '1', '2' ,'3'],
             ]);
 
         var_dump($query->all());exit();

@@ -11,22 +11,13 @@ class In extends AbstractConditionBuilder
     private string $field;
     private string $operator;
 
-    /**
-     * @var float|int|string
-     */
     private $param;
 
     /**
-     * @var float|int|string
-     */
-    private $to;
-
-    /**
-     * Between constructor.
+     * In constructor.
      * @param string $field
      * @param string $operator
-     * @param string|int|float $from
-     * @param string|int|float $to
+     * @param mixed ...$params
      */
     public function __construct(string $field, string $operator, ...$params)
     {

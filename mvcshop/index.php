@@ -11,6 +11,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 $config = require __DIR__ . '/configs/web.php';
 App::init($config);
 
+
 // URL: local-shop.com:8011/product-category/edit?p1=2&p2=3
 // Generate controller class: \app\controllers\ProductCategoryController
 // Generate action method: actionEdit

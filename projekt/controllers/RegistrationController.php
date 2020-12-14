@@ -4,9 +4,10 @@
 namespace app\controllers;
 
 use app\components\App;
+use app\components\SecuredController;
 use app\models\RegistrationValidation;
 
-class RegistrationController
+class RegistrationController extends SecuredController
 {
     public function actionRegistration()
     {

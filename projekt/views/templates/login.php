@@ -10,7 +10,7 @@
 
     <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">Sign in</button>
 
-    <a class="btn btn-lg btn-primary btn-block mt-3"" href="/registration/registration">Registration</a>
+    <a class="btn btn-lg btn-primary btn-block mt-3" href="/registration/registration">To registration</a>
     <label for="registration">If you don`t have account, you must  register!</label>
     <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
 </form>

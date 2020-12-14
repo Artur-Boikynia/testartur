@@ -94,6 +94,14 @@ class App
         return $this->template;
     }
 
+    /**
+     * @return User|null
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
 
     /**
      *

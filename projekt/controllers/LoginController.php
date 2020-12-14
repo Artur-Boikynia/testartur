@@ -4,9 +4,11 @@
 namespace app\controllers;
 
 use app\components\App;
-class LoginController
+use app\components\SecuredController;
+
+class LoginController extends SecuredController
 {
     public function actionLogin(){
-        App::getTemplate()->render('templates/login', 'layouts/login');
+        App::getApp()->getTemplate()->render('templates/login', 'layouts/login');
     }
 }

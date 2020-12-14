@@ -56,7 +56,7 @@
     </fieldset>
 
     <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">Registration</button>
-    <a class="btn btn-lg btn-primary btn-block mt-3" href="/login/login">Sign in</a>
+    <a class="btn btn-lg btn-primary btn-block mt-3" href="/login/login">To Sign in</a>
     <label for="registration">If you have account, you can sign in!</label>
     <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
 </form>

@@ -19,15 +19,17 @@ class GuestController extends AbstractController
             ->select(['id', 'name', 'password'])
             ->from('users')
             ->where([
-                ['id', 'not in', '1', '2' ,'3'],
+                ['id', 'in', 1, 2],
             ]);
 
         var_dump($query->all());exit();
 
-             /*   ['id', '<', 10],
+               /* ['id', 'in', 1, 2],
+                ['id', 'is not null'],
+                ['id', '<', 10],
                 ['name', 'like', '%2%'],
-                ['created_at', 'between', '2020-12-09 17:00:00', '2020-12-09 20:59:59'],
-        */
+                ['created_at', 'between', '2020-12-09 17:00:00', '2020-12-09 20:59:59'],*/
+
 
         if ($this->request()->isPost()) {
             $model = new User();

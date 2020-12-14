@@ -13,10 +13,9 @@ class Nullable extends AbstractConditionBuilder
 
 
     /**
-     * In constructor.
+     * Nullable constructor.
      * @param string $field
      * @param string $operator
-     * @param mixed ...$params
      */
     public function __construct(string $field, string $operator)
     {

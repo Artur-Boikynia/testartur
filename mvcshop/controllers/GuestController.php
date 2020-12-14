@@ -19,7 +19,7 @@ class GuestController extends AbstractController
             ->select(['id', 'name', 'password'])
             ->from('users')
             ->where([
-                ['created_at', 'between', '2020-12-13 21:44:53', '2020-12-13 23:07:57'],
+                ['id', 'not in', '1', '2' ,''],
             ]);
 
         var_dump($query->all());exit();

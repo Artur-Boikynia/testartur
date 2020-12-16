@@ -2,7 +2,7 @@
 
 namespace app\components\db;
 
-use app\components\db\where\LimitTrait;
+use app\components\db\LimitTrait;
 use app\exceptions\DBException;
 use PDO;
 

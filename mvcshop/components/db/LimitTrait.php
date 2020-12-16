@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\components\db\where;
+namespace app\components\db;
 
 
 use app\components\db\Limit;

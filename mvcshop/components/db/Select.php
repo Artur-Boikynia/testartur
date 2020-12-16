@@ -2,6 +2,7 @@
 
 namespace app\components\db;
 
+use app\components\db\where\LimitTrait;
 use app\exceptions\DBException;
 use PDO;
 
@@ -11,11 +12,11 @@ use PDO;
  */
 class Select extends AbstractQuery
 {
-    /**
-     * @var array
-     */
+    use WhereTrait;
+    use LimitTrait;
+
     private array $fields = [];
-    private ?Where $where = null;
+
     /**
      * @param array $fields
      * @return $this
@@ -33,17 +34,6 @@ class Select extends AbstractQuery
     public function from(string $table): self
     {
         $this->table = $table;
-        return $this;
-    }
-
-    /**
-     * @param array $where
-     * @return $this
-     */
-    public function where(array $where): self
-    {
-        $this->where = new Where($where);
-        $this->binds = $this->where->getSQL();
         return $this;
     }
 
@@ -74,16 +64,27 @@ class Select extends AbstractQuery
             return null;
         }
 
-        return $this->stmt->fetch($mode);
+        return $this->stmt->fetch($mode) ?: null;
     }
 
     /**
      * @return string
      */
-    protected function buildSQL(): string
+    public function buildSQL(): string
     {
         $fields = '`' . implode('`, `', $this->fields) . '`';
-        $sql = "SELECT {$fields} FROM `{$this->table}` WHERE {$this->where->getReadyConditions()}";
+        $sql = "SELECT {$fields} FROM `{$this->table}`";
+
+        $where = $this->getWhereSQL();
+        if ($where) {
+            $sql .= " WHERE {$where}";
+        }
+        $limit = $this->getLimit();
+
+        if ($limit) {
+            $sql .= " LIMIT {$limit}";
+        }
+
         return $sql;
     }
 }

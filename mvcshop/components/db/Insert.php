@@ -52,7 +52,6 @@ class Insert extends AbstractQuery
 
         $this->binds = $this->data;
 
-
         return "INSERT INTO `{$this->table}` ({$fields}) VALUES ({$aliases})";
     }
 }

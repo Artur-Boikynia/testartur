@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\AbstractController;
 use app\components\App;
+use app\models\AccessLog;
 use app\models\User;
 
 /**
@@ -14,22 +15,51 @@ class GuestController extends AbstractController
 {
     public function actionRegistration(): string
     {
+//        $user = User::findOne([['id', '=', 4]]);
+//        $user->name = 'New Name';
+//        $user->save();
+//
+//        $user->delete();
+//
+//        $user2 = new User();
+//        $user2->name = 'TEST User 2';
+//        $user2->login = '1111';
+//        $user2->password = 'p1111p';
+//        $user2->save();
+//
+//        $user2->name = 'Updated';
+//        $user2->save();
+//
+//        $user->delete();
+
+    /*    App::get()
+            ->db()
+            ->update('users')
+            ->set(['name' => mt_rand()])
+            ->where([
+                ['id', '=', 4]
+            ])
+            ->execute();*/
+
+       /* App::get()
+            ->db()
+            ->delete()
+            ->from('users')
+            ->where([
+                ['id', '=', 3]
+            ])
+            ->execute();*/
+
         $query = App::get()
             ->db()
             ->select(['id', 'name', 'password'])
             ->from('users')
             ->where([
-                ['id', 'in', 1, 2],
-            ]);
+                ['id', '>', 4]
+            ])
+            ->limit(2);
 
-        var_dump($query->all());exit();
-
-               /* ['id', 'in', 1, 2],
-                ['id', 'is not null'],
-                ['id', '<', 10],
-                ['name', 'like', '%2%'],
-                ['created_at', 'between', '2020-12-09 17:00:00', '2020-12-09 20:59:59'],*/
-
+        var_dump($query->buildSQL(), $query->all());exit();
 
         if ($this->request()->isPost()) {
             $model = new User();

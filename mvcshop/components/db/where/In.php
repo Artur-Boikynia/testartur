@@ -8,22 +8,19 @@ namespace app\components\db\where;
  */
 class In extends AbstractConditionBuilder
 {
-    private string $field;
-    private string $operator;
-
-    private $param;
+    private array $values;
 
     /**
-     * In constructor.
+     * Compare constructor.
      * @param string $field
      * @param string $operator
-     * @param mixed ...$params
+     * @param array $values
      */
-    public function __construct(string $field, string $operator, ...$params)
+    public function __construct(string $field, string $operator, array $values)
     {
         $this->field = $field;
         $this->operator = $operator;
-        $this->param = $params;
+        $this->values = $values;
     }
 
     /**
@@ -31,22 +28,17 @@ class In extends AbstractConditionBuilder
      */
     public function build(): string
     {
-        $mainString = "`{$this->field}` {$this->operator}";
-        $tailString = '';
+        $hash = $this->getUniqueHash();
+        $alias = "{$this->field}_{$hash}";
 
-        foreach ($this->param as $value) {
-            $hash = uniqid($this->field);
-            $alias = "{$this->field}_{$hash}";
-            $this->binds[$alias] = $value;
-            $tailString .= ":{$alias},";
+        $inSQL = [];
+        foreach ($this->values as $index => $value) {
+            $key = "{$alias}_{$index}";
+            $inSQL[] = $key;
+            $this->binds[$key] = $value;
         }
 
-        $tailString = trim($tailString, " \t\n\r\0\x0B,");
-        $tailString = "({$tailString})";
-
-        $sql = $mainString . ' ' . $tailString;
-
-        return $sql;
+        $in = implode(', :', $inSQL);
+        return "`{$this->field}` {$this->operator} (:{$in})";
     }
 }
-

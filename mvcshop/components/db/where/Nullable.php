@@ -8,12 +8,8 @@ namespace app\components\db\where;
  */
 class Nullable extends AbstractConditionBuilder
 {
-    private string $field;
-    private string $operator;
-
-
     /**
-     * Nullable constructor.
+     * Compare constructor.
      * @param string $field
      * @param string $operator
      */
@@ -28,8 +24,6 @@ class Nullable extends AbstractConditionBuilder
      */
     public function build(): string
     {
-        $sql = "`{$this->field}` {$this->operator}";
-
-        return $sql;
+        return "`{$this->field}` {$this->operator}";
     }
 }

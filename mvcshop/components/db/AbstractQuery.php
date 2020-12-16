@@ -12,19 +12,8 @@ use PDOStatement;
  */
 abstract class AbstractQuery
 {
-    /**
-     * @var PDO
-     */
     private PDO $connection;
-
-    /**
-     * @var string
-     */
     protected string $table = '';
-
-    /**
-     * @var array
-     */
     protected array $binds = [];
 
     /**
@@ -47,11 +36,9 @@ abstract class AbstractQuery
      */
     public function execute(): bool
     {
-        var_dump($this->buildSQL());
         $this->stmt = $this->connection->prepare($this->buildSQL());
-        var_dump($this->binds);
         $result = $this->stmt->execute($this->binds);
-        var_dump($result);
+
         if (!$result) {
             $error = json_encode($this->stmt->errorInfo());
             throw new DBException("{$this->stmt->errorCode()}: {$error}");

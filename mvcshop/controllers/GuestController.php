@@ -55,9 +55,10 @@ class GuestController extends AbstractController
             ->select(['id', 'name', 'password'])
             ->from('users')
             ->where([
-                ['id', '>', 4]
+                ['id', '>', 1]
             ])
-            ->limit(2);
+            ->limit(4)
+            ->offset(1);
 
         var_dump($query->buildSQL(), $query->all());exit();
 

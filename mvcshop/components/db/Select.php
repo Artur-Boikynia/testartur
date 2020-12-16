@@ -79,10 +79,11 @@ class Select extends AbstractQuery
         if ($where) {
             $sql .= " WHERE {$where}";
         }
-        $limit = $this->getLimit();
 
+        $limit = $this->getLimit();
         if ($limit) {
-            $sql .= " LIMIT {$limit}";
+            $offset = $this->getOffset();
+            $sql .= " LIMIT {$limit} OFFSET {$offset} ";
         }
 
         return $sql;

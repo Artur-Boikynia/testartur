@@ -11,6 +11,7 @@ trait LimitTrait
 {
 
    private ?int $limit = null;
+   private int $offset = 0;
    private ?Limit $limitConditions = null;
 
     /**
@@ -24,15 +25,30 @@ trait LimitTrait
         return $this;
     }
 
+    public function offset(int $offset = 0): self
+    {
+        if(!$this->limitConditions instanceof Limit){
+            throw new DBException('LIMIT was not set');
+        }
+        $this->offset = $offset;
+
+        return $this;
+    }
+
     /**
      * @return int|null
      */
     public function getLimit(): ?int
     {
-        if(!$this->limitConditions instanceof Limit){
-            throw new DBException('Limit was not entered');
-        }
         return $this->limit;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOffset(): int
+    {
+        return $this->offset;
     }
 
 }

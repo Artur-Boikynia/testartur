@@ -8,7 +8,11 @@ use app\components\Router;
 use app\components\Template;
 use app\components\Request;
 use app\components\Validation;
+use app\exceptions\DBException;
 use app\exceptions\FalseVariablesException;
+use app\helper\StringHelper;
+use app\components\DB;
+use PDO;
 
 /**
  * Class App
@@ -24,14 +28,13 @@ class App
      * @var \app\components\Template|null
      */
     private ?Template $template = null;
-    /**
-     * @var string
-     */
-    private string $config = '';
+
+    private array $config = array();
 
     private ?Request $request = null;
     private ?User $user = null;
     private ?Validation $validation = null;
+    private ?DB $connectDB = null;
 
     /**
      * App constructor.
@@ -58,6 +61,8 @@ class App
      * @throws \app\exceptions\NotFoundException
      */
     public function goApp(array $config){
+        $this->config = $config;
+        $this->connectDB = $this->initDB();
         $this->request = new Request();
         $this->user = new User();
         $dispatcher = new Dispatcher($_SERVER['REQUEST_URI']);
@@ -65,6 +70,27 @@ class App
         $router = new Router($dispatcher);
     }
 
+    /**
+     * @return array
+     */
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+    private function initDB(): DB{
+        $name = StringHelper::tracerArray('db.name');
+        $host = StringHelper::tracerArray('db.host');
+        $user = StringHelper::tracerArray('db.user');
+        $password = StringHelper::tracerArray('db.password');
+
+        if (!$host || !$user || !$password || !$name) {
+            throw new DBException('DB config is invalid (host, user, password, name as required)');
+        }
+
+        return new DB($name, $host, $user, $password);
+
+    }
     public function setValidation( array $data, array $rules):void{
         $this->validation = new Validation($data, $rules);
     }
@@ -83,6 +109,7 @@ class App
      */
     public function getRequest(): ?\app\components\Request
     {
+
         return $this->request;
     }
 
@@ -102,6 +129,21 @@ class App
         return $this->user;
     }
 
+    /**
+     * @return \app\components\DB|null
+     */
+    public function getConnectDB(): ?\app\components\DB
+    {
+        return $this->connectDB;
+    }
+
+    /**
+     * @return \app\components\Validation|null
+     */
+    public function getValidation(): ?\app\components\Validation
+    {
+        return $this->validation;
+    }
 
     /**
      *

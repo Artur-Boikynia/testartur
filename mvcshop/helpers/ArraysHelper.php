@@ -2,6 +2,8 @@
 
 namespace app\helpers;
 
+use app\components\App;
+
 /**
  * Class ArraysHelper
  * @package app\helpers
@@ -14,8 +16,9 @@ class ArraysHelper
      * @param mixed $default
      * @return array|mixed|null
      */
-    public static function find(string $address, array $data, $default = null)
+    public static function find(string $address, $default = null)
     {
+        $data = App::getApp()->getConfig();
         $keys = explode('.', $address);
         foreach ($keys as $key) {
             if (array_key_exists($key, $data)) {

@@ -11,6 +11,15 @@ use app\components\validators\StringValidator;
 /**
  * Class User
  * @package app\models
+ *
+ * @property int id
+ * @property string name
+ * @property string login
+ * @property string password
+ * @property string role
+ * @property string created_at
+ * @property string updated_at
+ * @property bool is_active
  */
 class User extends ActiveRecord
 {
@@ -22,60 +31,24 @@ class User extends ActiveRecord
         return 'users';
     }
 
+    public string $repeatPassword = '';
+
+    protected array $extendedFields = [
+        'repeatPassword'
+    ];
+
     /**
      * @return array
      */
-    private function rules(): array
+    protected function rules(): array
     {
         return [
             'name' => [new StringValidator(3, 50)],
             'login' => [new StringValidator(8, 50)],
             'password' => [
                 new StringValidator(8, 20),
-                new RegExpValidator("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/"),
-                new CompareValidator('repeat-password')
+                new RegExpValidator("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/")
             ],
         ];
-    }
-
-    public function load(array $data)
-    {
-        $validator = App::get()->validator($data, $this->rules())->run();
-        foreach ($validator->getValidData() as $key => $value) {
-            $this->{$key} = $value;
-        }
-    }
-
-    public function createUser()
-    {
-        $query = App::get()
-            ->db()
-            ->insert([
-                'name' => $this->name,
-                'login' => $this->login,
-                'password' => $this->password,
-            ])
-            ->into('users')
-            ->execute();
-
-        var_dump($query);
-
-//        $sql = <<<SQL
-//            INSERT INTO `users`
-//                (`name`, `login`, `password`, `role`, `is_active`)
-//            VALUES
-//                ('{$this->name}', '{$this->login}', '{$this->password}', '{$this->role}', '{$this->is_active}')
-//        SQL;
-//
-//        $this
-//            ->insert([
-//                'name' => $this->name,
-//                'login' => $this->login,
-//                'password' => $this->password,
-//                'role' => $this->role,
-//                'is_active' => $this->is_active,
-//            ])
-//            ->into('users')
-//            ->save();
     }
 }

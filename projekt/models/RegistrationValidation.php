@@ -42,8 +42,14 @@ class RegistrationValidation
      */
     public function doValidation(array $data){
         $validator = App::getApp()->setValidation($data,$this->rules());
-    }
 
+        $falseData = App::getApp()->getValidation()->getFalseData();
+        if(!empty($falseData)){
+            echo "You entered incorecte datas";
+            var_dump($falseData);
+            exit();
+        }
+    }
 
 
 }

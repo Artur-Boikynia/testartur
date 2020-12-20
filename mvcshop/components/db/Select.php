@@ -2,7 +2,6 @@
 
 namespace app\components\db;
 
-use app\components\db\LimitTrait;
 use app\exceptions\DBException;
 use PDO;
 
@@ -13,7 +12,6 @@ use PDO;
 class Select extends AbstractQuery
 {
     use WhereTrait;
-    use LimitTrait;
 
     private array $fields = [];
 
@@ -72,18 +70,12 @@ class Select extends AbstractQuery
      */
     public function buildSQL(): string
     {
-        $fields = '`' . implode('`, `', $this->fields) . '`';
+        $fields = implode(', ', $this->fields);
         $sql = "SELECT {$fields} FROM `{$this->table}`";
 
         $where = $this->getWhereSQL();
         if ($where) {
             $sql .= " WHERE {$where}";
-        }
-
-        $limit = $this->getLimit();
-        if ($limit) {
-            $offset = $this->getOffset();
-            $sql .= " LIMIT {$limit} OFFSET {$offset} ";
         }
 
         return $sql;

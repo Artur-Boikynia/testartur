@@ -26,8 +26,6 @@ class Validation
         $this->data = $data;
         $this->keysOfRules = array_keys($rules);
         $this->selectKeyForValidation($this->data);
-        var_dump($this->getFalseData());
-        var_dump($this->getValidData());
     }
 
     /**

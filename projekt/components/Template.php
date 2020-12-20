@@ -96,7 +96,7 @@ class Template
      * @throws InvalidException
      */
     private function getArrayValue(string $findValue):string{
-        return StringHelper::tracerArray($findValue, $this->config);
+        return StringHelper::tracerArray($findValue);
     }
 
 

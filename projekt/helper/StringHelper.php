@@ -4,6 +4,7 @@
 namespace app\helper;
 
 
+use app\components\App;
 use app\exceptions\InvalidException;
 
 class StringHelper
@@ -16,7 +17,8 @@ class StringHelper
 
     }
 
-    public static function tracerArray(string $searchString, array $config, $delimiter = '.'):string{
+    public static function tracerArray(string $searchString, string $delimiter = '.'):string{
+        $config = App::getApp()->getConfig();
         $explodedArray = explode($delimiter, $searchString);
         foreach($explodedArray as $value){
             $config = $config[$value]?? null;

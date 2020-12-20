@@ -22,7 +22,7 @@
     </div>
 
     <div class="form-group row">
-        <select class="custom-select" name="group"  id="validationDefault04" required>
+        <select class="custom-select" name="grupe"  id="validationDefault04" required>
             <option selected disabled value="">Choose group</option>
             <option>...</option>
         </select>
@@ -46,7 +46,7 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="status" id="gridRadios2" value="Student">
+                    <input class="form-check-input" type="radio" name="status" id="gridRadios2" value="student">
                     <label class="form-check-label" for="gridRadios2">
                         Student
                     </label>

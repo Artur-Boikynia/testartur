@@ -12,6 +12,10 @@ class RegistrationController extends SecuredController
 {
     public function actionRegistration()
     {
+//       $qwerty = App::getApp()->getConnectDB()->select('id')->from('uniusers')->where([['id', '>', '1'],['id', '<', '16']])->all();
+//        $qwerty = App::getApp()->getConnectDB()->update('uniusers')->set(['name'=>'Ebalomeshatel'])->where([['id', '=', '1']])->exec();
+//        var_dump($qwerty);
+        $qwerty = App::getApp()->getConnectDB()->delete('uniusers')->exec();
         if(App::getApp()->getRequest()->isPost()){
             $post = App::getApp()->getRequest()->getPost();
 

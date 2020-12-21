@@ -6,6 +6,7 @@ namespace app\components;
 
 use app\components\db\Delete;
 use app\components\db\Select;
+use app\components\db\where\IN;
 use PDO;
 use app\components\App;
 use app\components\db\Insert;
@@ -28,15 +29,16 @@ class DB
         return (new Select($this->connection))->setFieldss($data);
     }
 
-    public function update(string $tableName){
+    public function update(string $tableName):Update{
 
         return (new Update($this->connection))->setTable($tableName);
     }
 
-    public function delete(string $tableName){
+    public function delete(string $tableName):Delete{
 
         return (new Delete($this->connection))->setTable($tableName);
     }
+
 
     /**
      * @return PDO|null

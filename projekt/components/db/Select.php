@@ -41,7 +41,6 @@ class Select extends DbAbstractQuery
             $this->binds = array_merge($this->binds, $this->where->getBinds());
             $sql .= " WHERE {$where}";
         }
-
         return $sql;
     }
 

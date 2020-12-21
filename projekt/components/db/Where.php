@@ -8,6 +8,9 @@ use app\components\db\where\AbstractConditionBuilder;
 use app\exceptions\DbExcetion;
 use app\exceptions\FalseVariablesException;
 use app\components\db\where\Compare;
+use app\components\db\where\Between;
+use app\components\db\where\IN;
+use app\components\db\where\Nullable;
 
 class Where
 {
@@ -34,7 +37,6 @@ class Where
             $conditions[] = $objectConditions->build();
             $this->binds = array_merge($this->binds, $objectConditions->getBinds());
             $this->sql = implode(" {$this->glue} ", $conditions);
-
         }
     }
 
@@ -57,7 +59,7 @@ class Where
             case 'like':
             case 'not like':
                 return new Compare(...$condition);
-/*            case 'between':
+            case 'between':
             case 'not between':
                 return new Between(...$condition);
             case 'in':
@@ -65,7 +67,7 @@ class Where
                 return new In(...$condition);
             case 'is null':
             case 'is not null':
-                return new Nullable(...$condition);*/
+                return new Nullable(...$condition);
             default:
                 throw new DbExcetion("Operator '{$operator}' is invalid");
         }

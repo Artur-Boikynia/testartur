@@ -23,12 +23,14 @@ abstract class DbAbstractQuery
     }
 
     public function exec(){
+        var_dump($this->getSQL());
         $this->stmt = $this->connect->prepare($this->getSQL());
         $this->stmt->execute($this->binds);
     }
 
     public function where(array $conditions, $glue = 'AND'):self{
         $this->where = new Where($conditions, $glue);
+
         return $this;
     }
 

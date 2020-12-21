@@ -11,8 +11,9 @@ use app\components\validation\LenghtValidation;
 use app\components\validation\EmailValidation;
 use app\components\validation\UpperValidation;
 use app\components\validation\PasswordValidation;
+use app\components\db\where\ActivRecord;
 
-class RegistrationValidation
+class RegistrationValidation extends ActivRecord
 {
     /**
      * @return \app\components\validation\LenghtValidation[][]

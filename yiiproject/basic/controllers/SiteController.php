@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\components\web\SecuredController;
+use app\models\forms\RegistrationForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -84,6 +86,11 @@ class SiteController extends Controller
         return $this->render('login', [
             'model' => $model,
         ]);
+    }
+
+    public function actionRegistration(){
+        $model = new RegistrationForm();
+        return $this->render('registration', ['model' => $model]);
     }
 
     /**

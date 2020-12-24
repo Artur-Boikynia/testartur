@@ -17,6 +17,7 @@ class RegistrationForm extends \yii\base\Model
         return [
         [['email', 'name', 'surname', 'password', 'repeatPassword'], 'required'],
         ['email', 'email'],
+//        ['email', 'unique'],
         ['name', 'match', 'pattern' => '/[A-Z]{1}[A-Za-z]*/'],
         ['surname', 'match', 'pattern' => '/[A-Z]{1}[A-Za-z]*/'],
         ['email', 'email'],

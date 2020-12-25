@@ -91,6 +91,7 @@ class SiteController extends Controller
     public function actionRegistration(){
 
         $this->layout = 'login';
+        $this->getView()->title = 'Registration';
         $model = new RegistrationForm();
         return $this->render('registration', ['model' => $model]);
     }

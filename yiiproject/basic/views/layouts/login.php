@@ -33,7 +33,6 @@ $this->registerAssetBundle(SigninAsset::class);
 <!--    <title>Signin Template for Bootstrap</title>-->
     <?=$title = Html::encode($this->title) ?>
     <title><?= Yii::t('app', $title) ?></title>
-
   </head>
 
   <body>

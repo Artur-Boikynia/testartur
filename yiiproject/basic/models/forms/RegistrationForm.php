@@ -4,25 +4,34 @@
 namespace app\models\forms;
 
 
-class RegistrationForm extends \yii\base\Model
+use app\models\Yiiusers;
+use Yii;
+class RegistrationForm extends Yiiusers
 {
-    public string $email = '';
-    public string $name = '';
-    public string $surname = '';
-    public string $password = '';
     public string $repeatPassword = '';
 
-    public function rules():array
+    public function rules(): array
     {
-        return [
-        [['email', 'name', 'surname', 'password', 'repeatPassword'], 'required'],
-        ['email', 'email'],
-//        ['email', 'unique'],
-        ['name', 'match', 'pattern' => '/[A-Z]{1}[A-Za-z]*/'],
-        ['surname', 'match', 'pattern' => '/[A-Z]{1}[A-Za-z]*/'],
-        ['email', 'email'],
-        ['password', 'match', 'pattern' => '/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&_])[A-Za-z\d@$!%*#?&_]{8,}$/'],
-        ['repeatPassword', 'compare', 'compareAttribute' => 'password'],
-        ];
+
+        return array_merge(parent::rules(),
+            [
+                ['email', 'email'],
+                ['name', 'match', 'pattern' => '/[A-Z]{1}[A-Za-z]*/'],
+                ['surname', 'match', 'pattern' => '/[A-Z]{1}[A-Za-z]*/'],
+                ['password', 'match', 'pattern' => '/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&_])[A-Za-z\d@$!%*#?&_]{8,}$/'],
+                [['repeatPassword'], 'required'],
+                ['repeatPassword', 'compare', 'compareAttribute' => 'password']
+            ]);
+    }
+    public function beforeSave($insert):bool
+    {
+        $parentBeforeSave =  parent::beforeSave($insert);
+
+        if($parentBeforeSave){
+            $this->password = Yii::$app->security->generatePasswordHash($this->password);
+        }
+
+        return $parentBeforeSave;
     }
 }
+

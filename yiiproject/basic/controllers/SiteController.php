@@ -9,7 +9,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
+use app\models\forms\LoginForm;
 use app\models\ContactForm;
 
 class SiteController extends Controller
@@ -62,7 +62,7 @@ class SiteController extends Controller
      * @return string
      */
     public function actionIndex()
-    {
+    {   $this->layout = 'main1';
         return $this->render('index');
     }
 
@@ -73,6 +73,8 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = 'main1';
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -88,11 +90,19 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @return string|Response
+     */
     public function actionRegistration(){
 
         $this->layout = 'login';
         $this->getView()->title = 'Registration';
         $model = new RegistrationForm();
+
+        if($model->load($this->request->post()) && $model->save()){
+            return $this->redirect('login');
+        }
+
         return $this->render('registration', ['model' => $model]);
     }
 
@@ -115,6 +125,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        $this->layout = 'main1';
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -133,6 +144,7 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        $this->layout = 'main1';
         return $this->render('about');
     }
 }

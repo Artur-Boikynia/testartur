@@ -22,9 +22,13 @@ $image = Image::getImagine()->open($img);*/
 
 
 <h2 class="form-signin-heading text-center"><?=$this->title?></h2>
-
 <?php $form = ActiveForm::begin(['method' => 'post', 'options'=>['class' => ['form-signin']]]) ?>
 
+    <?= $form->field($model, 'email')
+        ->textInput()
+        ->input('email', ['placeholder' => "Enter Your Email"])
+        ->label(false)
+    ?>
     <?= $form->field($model, 'name')
         ->textInput()
         ->input('name', ['placeholder' => "Enter Your Name"])
@@ -40,7 +44,7 @@ $image = Image::getImagine()->open($img);*/
         ->label(false)?>
     <?= $form->field($model, 'repeatPassword')
         ->passwordInput()
-        ->input('repeatPassword', ['placeholder' => "Repeat Your Password"])
+        ->input('password', ['placeholder' => "Repeat Your Password"])
         ->label(false)?>
     <?= Html::submitButton('Registration', ['class' => 'btn btn-lg btn-primary btn-block'])?>
 

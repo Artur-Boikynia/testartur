@@ -22,6 +22,7 @@ $image = Image::getImagine()->open($img);*/
 
 
 <h2 class="form-signin-heading text-center"><?=$this->title?></h2>
+
 <?php $form = ActiveForm::begin(['method' => 'post', 'options'=>['class' => ['form-signin']]]) ?>
 
     <?= $form->field($model, 'email')

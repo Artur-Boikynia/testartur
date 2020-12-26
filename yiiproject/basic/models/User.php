@@ -9,7 +9,6 @@ use Yii;
 use \yii\base\InvalidArgumentException;
 class User extends Yiiusers implements IdentityInterface
 {
-    public static string $password = "";
     public static function findIdentity($id):?self
     {
         return self::findOne($id);
@@ -21,9 +20,9 @@ class User extends Yiiusers implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username):?self
+    public static function findByUsername($email):?self
     {
-        return self::findOne(['email' => $username]);
+        return self::findOne(['email' => $email]);
     }
 
     public function getId()
@@ -41,7 +40,6 @@ class User extends Yiiusers implements IdentityInterface
     public function validatePassword(string $password)
     {
         try{
-            self::$password = $this->password;
             return Yii::$app->security->validatePassword($password, $this->password);
         }catch (InvalidArgumentException $exception){
             return false;

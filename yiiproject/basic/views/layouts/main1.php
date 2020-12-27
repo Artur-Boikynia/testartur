@@ -68,7 +68,7 @@ $this->registerAssetBundle(MainAsset::class);
   echo Nav::widget([
       'options' => ['class' => 'nav navbar-nav navbar-right'],
       'items' => [
-          ['label' => 'Home', 'url' => ['/site/index']],
+          ['label' => 'Search Users', 'url' => ['/users/index']],
           ['label' => 'About', 'url' => ['/site/about']],
           ['label' => 'Contact', 'url' => ['/site/contact']],
           Yii::$app->user->isGuest ? (

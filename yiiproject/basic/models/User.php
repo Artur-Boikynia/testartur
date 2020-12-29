@@ -3,7 +3,7 @@
 namespace app\models;
 
 use app\exceptions\InvalidException;
-use app\models\Yiiusers;
+use app\models\entities\Yiiusers;
 use yii\web\IdentityInterface;
 use Yii;
 use \yii\base\InvalidArgumentException;

@@ -4,7 +4,7 @@
 namespace app\models\forms;
 
 
-use app\models\Yiiusers;
+use app\models\entities\Yiiusers;
 use Yii;
 class RegistrationForm extends Yiiusers
 {

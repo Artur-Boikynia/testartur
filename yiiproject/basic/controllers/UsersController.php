@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\components\App;
 use Yii;
-use app\models\Yiiusers;
+use app\models\entities\Yiiusers;
 use app\models\search\UserSearch;
 use app\components\web\SecuredController;
 use yii\web\NotFoundHttpException;

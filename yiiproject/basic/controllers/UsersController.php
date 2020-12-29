@@ -2,18 +2,22 @@
 
 namespace app\controllers;
 
+use app\components\App;
 use Yii;
 use app\models\Yiiusers;
 use app\models\search\UserSearch;
 use app\components\web\SecuredController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
+
 
 /**
  * UsersController implements the CRUD actions for Yiiusers model.
  */
-class UsersController extends SecuredController
+class UsersController extends Controller
 {
+    static ?Yiiusers $model = null;
     /**
      * {@inheritdoc}
      */
@@ -35,7 +39,10 @@ class UsersController extends SecuredController
      */
     public function actionIndex()
     {
-        $this->layout = 'main1';
+
+        if (!Yii::$app->user->isGuest) {
+            $this->layout = 'main1';
+        }
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -52,9 +59,28 @@ class UsersController extends SecuredController
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
-    {   $this->layout = 'main1';
+    {
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+
+
+    public function actionShow($id)
+    {
+        self::$model = $this->findModel($id);
+
+        if (!Yii::$app->user->isGuest && self::$model->id == Yii::$app->user->identity->id) {
+            $this->layout = 'main1';
+        }
+        else{
+            $this->layout = 'main2';
+        }
+
+
+        return $this->render('view', [
+            'model' => self::$model,
         ]);
     }
 
@@ -65,7 +91,7 @@ class UsersController extends SecuredController
      */
     public function actionCreate()
     {
-        $this->layout = 'main1';
+        $this->layout = 'main';
 
         $model = new Yiiusers();
 
@@ -125,7 +151,6 @@ class UsersController extends SecuredController
      */
     protected function findModel($id)
     {
-        $this->layout = 'main1';
 
         if (($model = Yiiusers::findOne($id)) !== null) {
             return $model;

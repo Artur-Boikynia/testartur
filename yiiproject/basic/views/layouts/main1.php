@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use app\assets\MainAsset;
 use \yii\bootstrap\NavBar;
 use \yii\bootstrap\Nav;
+use app\controllers\UsersController;
 
 /**
  * @var $this View
@@ -129,7 +130,7 @@ $this->registerAssetBundle(MainAsset::class);
                       'options' => ['class' => 'nav nav-sidebar'],
                       'items' => [
                           ['label' => 'Home', 'url' => ['/site/registration']],
-                          ['label' => 'About', 'url' => ['/site/about']],
+                          ['label' => 'About', 'url' => ['/users/show?id=' . Yii::$app->user->identity->id]],
                           ['label' => 'Contact', 'url' => ['/site/contact']],
                       ],
                   ]);

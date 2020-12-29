@@ -1,4 +1,5 @@
 <?php
+use app\components\RememberUri;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -53,6 +54,7 @@ $config = [
         ],
     ],
     'params' => $params,
+
 ];
 
 if (YII_ENV_DEV) {

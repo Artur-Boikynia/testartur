@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\App;
+use app\models\forms\RegistrationForm;
 use Yii;
 use app\models\entities\Yiiusers;
 use app\models\search\UserSearch;
@@ -60,10 +61,20 @@ class UsersController extends Controller
      */
     public function actionView($id)
     {
+        self::$model = $this->findModel($id);
+
+        if (!Yii::$app->user->isGuest && self::$model->id == Yii::$app->user->identity->id) {
+            $this->layout = 'main1';
+        }
+        else{
+            $this->layout = 'main2';
+        }
+
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => self::$model,
         ]);
+
     }
 
 
@@ -93,7 +104,7 @@ class UsersController extends Controller
     {
         $this->layout = 'main';
 
-        $model = new Yiiusers();
+        $model = new RegistrationForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

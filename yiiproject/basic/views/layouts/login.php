@@ -28,6 +28,12 @@ $this->registerAssetBundle(SigninAsset::class);
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
     <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/signin/">
+      <style>
+          html, body {
+              height: 100%;
+              background: white;
+          }
+      </style>
     <?php $this->registerCsrfMetaTags() ?>
 
 <!--    <title>Signin Template for Bootstrap</title>-->

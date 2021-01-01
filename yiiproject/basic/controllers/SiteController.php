@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\components\web\LanguageTrait;
 use app\components\web\SecuredController;
+use app\models\forms\LanguagesForm;
 use app\models\forms\RegistrationForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -11,9 +13,11 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\forms\LoginForm;
 use app\models\ContactForm;
+use app\components\web\LanguageComponentsTrait;
 
 class SiteController extends Controller
 {
+    use LanguageComponentsTrait;
     /**
      * {@inheritdoc}
      */
@@ -74,6 +78,8 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $this->layout = 'main';
+
+        $this->view->title = 'Login';
 
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -152,5 +158,22 @@ class SiteController extends Controller
         }
 
         return $this->render('about');
+    }
+
+    /**
+     * @return Response
+     */
+    public function actionLanguage(){
+
+        $model = new LanguagesForm();
+
+        if(!$model->load($this->request->post()) || !$model->validate()){
+            return $this->goBack();
+        }
+
+
+        $this->getLanguage()->set($model->language);
+        return $this->goBack();
+
     }
 }

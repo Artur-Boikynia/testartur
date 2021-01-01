@@ -6,6 +6,7 @@ use app\assets\MainAsset;
 use \yii\bootstrap\NavBar;
 use \yii\bootstrap\Nav;
 use app\controllers\UsersController;
+use app\widgets\Language;
 
 /**
  * @var $this View
@@ -32,6 +33,12 @@ $this->registerAssetBundle(MainAsset::class);
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
     <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/dashboard/">
+      <style>
+          html, body {
+              height: 100%;
+              background: white;
+          }
+      </style>
     <?php $this->registerCsrfMetaTags() ?>
     <?=$title = Html::encode($this->title) ?>
     <title><?= Yii::t('app', $title) ?></title>
@@ -84,11 +91,11 @@ $this->registerAssetBundle(MainAsset::class);
               . Html::endForm()
               . '</li>'
           ),
+          Html::tag('li', Language::widget()),
       ],
   ]);
   NavBar::end();
   ?>
-
    <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">

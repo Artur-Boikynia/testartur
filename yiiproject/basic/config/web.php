@@ -7,7 +7,9 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'language'],
+    'language' => 'ru-RU',
+    'sourceLanguage' => 'en-US',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -27,6 +29,7 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'i18n' => require __DIR__  . '/i18n.php',
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
@@ -34,6 +37,9 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+
+        'language' => \app\components\web\LanguageComponent::class,
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -52,7 +58,7 @@ $config = [
                 '/' => '/menu/index'
             ],
         ],
-    ],
+],
     'params' => $params,
 
 ];

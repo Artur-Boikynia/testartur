@@ -103,6 +103,7 @@ class SiteController extends Controller
 
         $this->layout = 'login';
         $this->getView()->title = 'Registration';
+
         $model = new RegistrationForm();
 
         if($model->load($this->request->post()) && $model->save()){
@@ -166,6 +167,7 @@ class SiteController extends Controller
     public function actionLanguage(){
 
         $model = new LanguagesForm();
+
 
         if(!$model->load($this->request->post()) || !$model->validate()){
             return $this->goBack();

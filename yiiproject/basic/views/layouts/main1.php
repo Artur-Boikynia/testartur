@@ -136,9 +136,10 @@ $this->registerAssetBundle(MainAsset::class);
                   echo Nav::widget([
                       'options' => ['class' => 'nav nav-sidebar'],
                       'items' => [
-                          ['label' => 'Home', 'url' => ['/site/registration']],
+//                          ['label' => 'Home', 'url' => ['/site/registration']],
                           ['label' => 'About', 'url' => ['/users/show?id=' . Yii::$app->user->identity->id]],
-                          ['label' => 'Contact', 'url' => ['/site/contact']],
+                          ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . Yii::$app->user->identity->id]],
+//                          ['label' => 'Contact', 'url' => ['/site/contact']],
                       ],
                   ]);
                   ?>

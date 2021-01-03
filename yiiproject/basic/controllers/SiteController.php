@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
-use app\components\web\LanguageTrait;
+//use app\components\web\LanguageTrait;
 use app\components\web\SecuredController;
+use app\exceptions\DBException;
+use app\models\entities\ProgramminglanguagesEntities;
 use app\models\forms\LanguagesForm;
 use app\models\forms\RegistrationForm;
 use Yii;
@@ -102,11 +104,19 @@ class SiteController extends Controller
     public function actionRegistration(){
 
         $this->layout = 'login';
+
         $this->getView()->title = 'Registration';
 
         $model = new RegistrationForm();
 
         if($model->load($this->request->post()) && $model->save()){
+
+            $insertIdLanguages = new ProgramminglanguagesEntities();
+            $insertIdLanguages->user_id = $model->id;
+            if(!$insertIdLanguages->save()){
+                throw new DBException('Error while inserting data into \"Table:Programming languages\"');
+            }
+
             return $this->redirect('login');
         }
 

@@ -20,9 +20,9 @@ class User extends Yiiusers implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($email):?self
+    public static function findByUsername($username):?self
     {
-        return self::findOne(['email' => $email]);
+        return self::findOne(['username' => $username]);
     }
 
     public function getId()

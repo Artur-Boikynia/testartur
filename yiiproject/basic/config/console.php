@@ -1,5 +1,4 @@
 <?php
-
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -17,6 +16,7 @@ $config = [
     ],
     'components' => [
         'i18n' => require __DIR__  . '/i18n.php',
+        'authManager' => require __DIR__  . '/authManager.php',
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

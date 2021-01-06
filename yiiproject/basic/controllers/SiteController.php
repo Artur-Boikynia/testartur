@@ -117,6 +117,10 @@ class SiteController extends Controller
                 throw new DBException('Error while inserting data into \"Table:Programming languages\"');
             }
 
+            $role = Yii::$app->authManager->createRole('user');
+            Yii::$app->authManager->assign($role, $model->id);
+
+
             return $this->redirect('login');
         }
 

@@ -44,7 +44,7 @@ $this->title = 'Login';
 
     <?php $form = ActiveForm::begin(['method' => 'post', 'options'=>['class' => ['col-md-4 col-md-offset-4']]]) ?>
     <h2 class="form-signin-heading text-center"><?=$this->title?></h2>
-    <?= $form->field($model, 'email')
+    <?= $form->field($model, 'username')
     ->textInput()
     ->input('email', ['placeholder' => "Enter Your Email"])
     ->label(false)

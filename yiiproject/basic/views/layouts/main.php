@@ -2,14 +2,13 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-
+use mdm\admin\components\MenuHelper;
 use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use app\assets\MainAsset;
+use app\widgets\Language;
 
 $this->registerAssetBundle(AppAsset::class);
 
@@ -49,12 +48,30 @@ $this->registerAssetBundle(AppAsset::class);
                 ['label' => 'Search Users', 'url' => ['/users/index']],
                 ['label' => 'About', 'url' => ['/site/about']],
                 ['label' => 'Contact', 'url' => ['/site/contact']],
-                ['label' => 'Login', 'url' => ['/site/login']],
+                Yii::$app->user->isGuest ? (
+                ['label' => 'Login', 'url' => ['/site/login']]
+                ) :
+                    (
+                        '<li>'
+                        . Html::beginForm(['/site/logout'], 'post')
+                        . Html::submitButton(
+                            'Logout (' . Yii::$app->user->identity->name . ' ' . Yii::$app->user->identity->surname .  ')',
+                            ['class' => 'btn btn-link logout']
+                        )
+                        . Html::endForm()
+                        . '</li>'
+                    ),
+                Html::tag('li', Language::widget()),
             ],
         ]);
         NavBar::end();
         ?>
-
+        <div style="text-align: center" class="col-1">
+            <?=  Nav::widget([
+                'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
+            ]);
+            ?>
+        </div>
         <div class="container">
             <?= Alert::widget() ?>
             <?= $content ?>

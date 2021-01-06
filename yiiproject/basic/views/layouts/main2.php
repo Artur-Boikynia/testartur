@@ -7,16 +7,19 @@ use \yii\bootstrap\NavBar;
 use \yii\bootstrap\Nav;
 use app\controllers\UsersController;
 use app\widgets\Language;
+use app\components\getCurrentUser;
+
 
 /**
  * @var $this View
  * @var $content string
+ * @var $usersModel \app\models\entities\Yiiusers;
+ *
  */
 
 $this->registerAssetBundle(MainAsset::class);
 
 ?>
-
 <?php $this->beginPage() ?>
 
 <!doctype html>
@@ -47,6 +50,7 @@ $this->registerAssetBundle(MainAsset::class);
 
 <body>
 <?php $this->beginBody() ?>
+
 
 <?php
 NavBar::begin([
@@ -86,9 +90,9 @@ NavBar::end();
 
             <div class="placeholder">
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="100" height="100" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4><?php echo UsersController::$model->name . ' ' . UsersController::$model->surname ?></h4>
+                <h4><?php echo getCurrentUser::$usersModel->name . ' ' . getCurrentUser::$usersModel->surname ?></h4>
 
-                <?php switch(UsersController::$model->is_active == true):
+                <?php switch(getCurrentUser::$usersModel->is_active == true):
                     case true: ?>
                         <div>
                             <span class="text-danger">Online</span>
@@ -105,8 +109,8 @@ NavBar::end();
                 echo Nav::widget([
                     'options' => ['class' => 'nav nav-sidebar'],
                     'items' => [
-                        ['label' => 'Main Info', 'url' => ['/users/show?id=' . UsersController::$model->id]],
-                        ['label' => 'About', 'url' => ['/users/show?id=' . UsersController::$model->id]],
+                        ['label' => 'Main Info', 'url' => ['/users/view?id=' . getCurrentUser::$usersModel->id]],
+                        ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . getCurrentUser::$usersModel->id]],
                         ['label' => 'Contact', 'url' => ['/site/contact']],
                     ],
                 ]);
@@ -115,9 +119,11 @@ NavBar::end();
     </div>
 </div>
 
+
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <?= $content ?>
+    <?= $content  ?>
 </div>
+
 
 <?php $this->endBody() ?>
 </body>

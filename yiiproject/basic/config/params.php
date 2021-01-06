@@ -8,4 +8,8 @@ return [
         'ru-RU' => Yii::t('app', 'Russian'),
         'en-US' => Yii::t('app', 'English'),
     ],
+    'mdm.admin.configs' => [
+        'userTable' => '{{%yiiusers}}'
+    ],
+
 ];

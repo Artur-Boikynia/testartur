@@ -25,7 +25,7 @@ $image = Image::getImagine()->open($img);*/
 
 <?php $form = ActiveForm::begin(['method' => 'post', 'options'=>['class' => ['form-signin']]]) ?>
 
-    <?= $form->field($model, 'email')
+    <?= $form->field($model, 'username')
         ->textInput()
         ->input('email', ['placeholder' => "Enter Your Email"])
         ->label(false)

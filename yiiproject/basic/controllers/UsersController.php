@@ -3,11 +3,13 @@
 namespace app\controllers;
 
 use app\components\App;
+use app\components\getCurrentUserTrait;
 use app\models\forms\RegistrationForm;
 use Yii;
 use app\models\entities\Yiiusers;
 use app\models\search\UserSearch;
 use app\components\web\SecuredController;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -18,6 +20,8 @@ use yii\web\Controller;
  */
 class UsersController extends Controller
 {
+    use getCurrentUserTrait;
+
     static ?Yiiusers $model = null;
     /**
      * {@inheritdoc}
@@ -26,7 +30,7 @@ class UsersController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -62,6 +66,7 @@ class UsersController extends Controller
     public function actionView($id)
     {
         self::$model = $this->findModel($id);
+        $this->setCurrentUser($id);
 
         if (!Yii::$app->user->isGuest && self::$model->id == Yii::$app->user->identity->id) {
             $this->layout = 'main1';
@@ -78,9 +83,10 @@ class UsersController extends Controller
     }
 
 
-    public function actionShow($id)
+    /*public function actionShow($id)
     {
         self::$model = $this->findModel($id);
+        $this->setCurrentUser($id);
 
         if (!Yii::$app->user->isGuest && self::$model->id == Yii::$app->user->identity->id) {
             $this->layout = 'main1';
@@ -93,7 +99,8 @@ class UsersController extends Controller
         return $this->render('view', [
             'model' => self::$model,
         ]);
-    }
+    }*/
+
 
     /**
      * Creates a new Yiiusers model.

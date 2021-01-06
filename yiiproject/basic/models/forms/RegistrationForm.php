@@ -15,7 +15,7 @@ class RegistrationForm extends Yiiusers
 
         return array_merge(parent::rules(),
             [
-                ['email', 'email'],
+                ['username', 'email'],
                 ['name', 'match', 'pattern' => '/[A-Z]{1}[A-Za-z]*/'],
                 ['surname', 'match', 'pattern' => '/[A-Z]{1}[A-Za-z]*/'],
                 ['password', 'match', 'pattern' => '/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&_])[A-Za-z\d@$!%*#?&_]{8,}$/'],

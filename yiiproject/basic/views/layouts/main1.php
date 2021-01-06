@@ -7,6 +7,8 @@ use \yii\bootstrap\NavBar;
 use \yii\bootstrap\Nav;
 use app\controllers\UsersController;
 use app\widgets\Language;
+use mdm\admin\components\MenuHelper;
+use yii\base\Widget;
 
 /**
  * @var $this View
@@ -73,15 +75,19 @@ $this->registerAssetBundle(MainAsset::class);
           'class' => 'navbar navbar-inverse navbar-fixed-top',
       ],
   ]);
+
   echo Nav::widget([
       'options' => ['class' => 'nav navbar-nav navbar-right'],
+//      'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id),
       'items' => [
           ['label' => 'Search Users', 'url' => ['/users/index']],
           ['label' => 'About', 'url' => ['/site/about']],
           ['label' => 'Contact', 'url' => ['/site/contact']],
-          Yii::$app->user->isGuest ? (
+          Html::tag('li', \app\widgets\Acess::widget()),
+          Yii::$app->user->can('login') ? (
           ['label' => 'Login', 'url' => ['/site/login']]
-          ) : (
+          ) :
+              (
               '<li>'
               . Html::beginForm(['/site/logout'], 'post')
               . Html::submitButton(
@@ -90,7 +96,7 @@ $this->registerAssetBundle(MainAsset::class);
               )
               . Html::endForm()
               . '</li>'
-          ),
+              ),
           Html::tag('li', Language::widget()),
       ],
   ]);
@@ -120,6 +126,7 @@ $this->registerAssetBundle(MainAsset::class);
         </div>
       </div>
     </nav>-->
+
   <?php if (!Yii::$app->user->isGuest): ?>
 
       <div class="container-fluid">
@@ -132,12 +139,13 @@ $this->registerAssetBundle(MainAsset::class);
                       <span class="text-muted">Something else</span>
                   </div>
 
+
                   <?php
                   echo Nav::widget([
                       'options' => ['class' => 'nav nav-sidebar'],
                       'items' => [
 //                          ['label' => 'Home', 'url' => ['/site/registration']],
-                          ['label' => 'About', 'url' => ['/users/show?id=' . Yii::$app->user->identity->id]],
+                          ['label' => 'About', 'url' => ['/users/view?id=' . Yii::$app->user->identity->id]],
                           ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . Yii::$app->user->identity->id]],
 //                          ['label' => 'Contact', 'url' => ['/site/contact']],
                       ],
@@ -148,6 +156,13 @@ $this->registerAssetBundle(MainAsset::class);
       </div>
 
   <?php endif; ?>
+
+<!--  <div style="text-align: right" class="col-lg-3">
+      <?/*=  Nav::widget([
+          'items' => MenuHelper::getAssignedMenu(Yii::$app->user->id)
+      ]);
+      */?>
+  </div>-->
 
   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
       <?= $content ?>

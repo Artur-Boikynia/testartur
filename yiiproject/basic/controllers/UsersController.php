@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use app\components\App;
+use app\components\EditPhoto;
 use app\components\getCurrentUserTrait;
+use app\exceptions\NotFoundException;
+use app\models\forms\AddPhotos;
 use app\models\forms\RegistrationForm;
 use Yii;
 use app\models\entities\Yiiusers;
@@ -13,6 +16,8 @@ use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 
 /**
@@ -63,7 +68,39 @@ class UsersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView(int $id, bool $delete = false, ?string $path = null)
+    {
+
+        if($delete && $path !== null){
+            $photo = new EditPhoto();
+            $photo->delete($id, $path);
+        }
+        self::$model = $this->findModel($id);
+        $this->setCurrentUser($id);
+
+        if (!Yii::$app->user->isGuest && self::$model->id == Yii::$app->user->identity->id) {
+            $this->layout = 'main1';
+        }
+         else{
+            $this->layout = 'main2';
+        }
+
+        $photosModel = new AddPhotos();
+        $photosModel->user_id = self::$model->id;
+
+        if($this->request->isPost){
+            $photosModel->imageFiles = UploadedFile::getInstances($photosModel,'imageFiles');
+            $photosModel->upload();
+        }
+
+        return $this->render('view', [
+            'model' => self::$model,
+            'photosModel' => $photosModel,
+        ]);
+
+    }
+
+    public function actionPhoto(int $id, bool $delete = false, ?string $path = null)
     {
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
@@ -75,9 +112,17 @@ class UsersController extends Controller
             $this->layout = 'main2';
         }
 
+        $photosModel = new AddPhotos();
+        $photosModel->user_id = self::$model->id;
+
+        if($this->request->isPost){
+            $photosModel->imageFiles = UploadedFile::getInstances($photosModel,'imageFiles');
+            $photosModel->upload();
+        }
 
         return $this->render('view', [
             'model' => self::$model,
+            'photosModel' => $photosModel,
         ]);
 
     }
@@ -143,6 +188,20 @@ class UsersController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionImage (string $url)
+    {
+        $this->response->format = Response::FORMAT_RAW;
+        $this->response->stream = fopen($url, 'rb');
+
+        if(!is_resource($this->response->stream)){
+            throw new NotFoundException(Yii::t('app', 'File {url} was not opened', ['url' => basename($url)]));
+        }
+
+        $this->response->send();
+
+    }
+
 
     /**
      * Deletes an existing Yiiusers model.

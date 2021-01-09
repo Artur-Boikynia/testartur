@@ -9,10 +9,13 @@ use app\controllers\UsersController;
 use app\widgets\Language;
 use mdm\admin\components\MenuHelper;
 use yii\base\Widget;
+use yii\widgets\ActiveForm;
+use app\models\entities\Yiiusers;
 
 /**
- * @var $this View
- * @var $content string
+ * @var View $this
+ * @var string $content
+ * @var Yiiusers $model
  */
 
 $this->registerAssetBundle(MainAsset::class);
@@ -102,30 +105,6 @@ $this->registerAssetBundle(MainAsset::class);
   ]);
   NavBar::end();
   ?>
-   <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
-        </div>
-      </div>
-    </nav>-->
 
   <?php if (!Yii::$app->user->isGuest): ?>
 
@@ -138,6 +117,15 @@ $this->registerAssetBundle(MainAsset::class);
                       <h4><?php echo Yii::$app->user->identity->name . ' ' .  Yii::$app->user->identity->surname?></h4>
                       <span class="text-muted">Something else</span>
                   </div>
+
+
+               <!--   <?php /*$form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) */?>
+
+                  <?/*= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) */?>
+
+                  <button>Submit</button>
+
+                  --><?php /*ActiveForm::end() */?>
 
 
                   <?php

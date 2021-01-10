@@ -68,13 +68,9 @@ class UsersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView(int $id, bool $delete = false, ?string $path = null)
+    public function actionView(int $id)
     {
 
-        if($delete && $path !== null){
-            $photo = new EditPhoto();
-            $photo->delete($id, $path);
-        }
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
 
@@ -100,8 +96,8 @@ class UsersController extends Controller
 
     }
 
-    public function actionPhoto(int $id, bool $delete = false, ?string $path = null)
-    {
+    public function actionGallery(int $id){
+
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
 
@@ -120,12 +116,35 @@ class UsersController extends Controller
             $photosModel->upload();
         }
 
-        return $this->render('view', [
+        return $this->render('gallery', [
             'model' => self::$model,
             'photosModel' => $photosModel,
         ]);
 
     }
+    public function actionDeletePhoto(int $id, bool $delete = false, ?string $path = null)
+    {
+//        self::$model = $this->findModel($id);
+
+        if($delete && $path !== null){
+            $photo = new EditPhoto($id);
+            $photo->delete($path);
+        }
+
+        return $this->redirect("gallery?id={$id}");
+    }
+
+    public function actionMainPhoto(int $id, bool $set = false, ?string $path = null)
+    {
+
+        if($set && $path !== null){
+            $photo = new EditPhoto($id);
+            $photo->setMain($path);
+        }
+
+        return $this->redirect("gallery?id={$id}");
+    }
+
 
 
     /*public function actionShow($id)

@@ -12,6 +12,7 @@ $config = [
     'bootstrap' => ['log', 'language'],
     'language' => 'en-US',
     'sourceLanguage' => 'en-US',
+    'name' => 'MyCMS',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',

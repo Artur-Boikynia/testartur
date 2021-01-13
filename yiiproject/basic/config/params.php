@@ -11,5 +11,6 @@ return [
     'mdm.admin.configs' => [
         'userTable' => '{{%yiiusers}}'
     ],
+    'icon-framework' => 'fa',
 
 ];

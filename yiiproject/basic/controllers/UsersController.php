@@ -145,26 +145,16 @@ class UsersController extends Controller
         return $this->redirect("gallery?id={$id}");
     }
 
+    public function actionRemoveMain (int $id, bool $remove = false, ?string $path = null){
 
-
-    /*public function actionShow($id)
-    {
-        self::$model = $this->findModel($id);
-        $this->setCurrentUser($id);
-
-        if (!Yii::$app->user->isGuest && self::$model->id == Yii::$app->user->identity->id) {
-            $this->layout = 'main1';
-        }
-        else{
-            $this->layout = 'main2';
+        if($remove && $path !== null){
+            $photo = new EditPhoto($id);
+            $photo->removeMain($path);
         }
 
+        return $this->redirect("gallery?id={$id}");
 
-        return $this->render('view', [
-            'model' => self::$model,
-        ]);
-    }*/
-
+    }
 
     /**
      * Creates a new Yiiusers model.

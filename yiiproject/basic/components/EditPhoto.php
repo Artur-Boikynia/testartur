@@ -37,6 +37,7 @@ class EditPhoto
      * @throws Exception
      */
     public function setMain (string $path):void {
+
         $photo = new PhotoEntities();
 
         $query = $photo::findAll([
@@ -61,6 +62,23 @@ class EditPhoto
             throw new Exception(Yii::t('app', 'Attribut is_main can not be seted for item  {photo}', ['photo' => basename($path)]));
         }
     }
+
+    public function removeMain (string $path):void {
+        $photo = new PhotoEntities();
+
+        $query = $photo::findOne([
+            'user_id' => $this->id,
+            'path' => $path,
+        ]);
+
+        $query->is_main = 0;
+
+        if(!$query->save()){
+            throw new Exception(Yii::t('app', 'Attribut is_main can not be seted for item  {photo}', ['photo' => basename($path)]));
+        }
+    }
+
+
 
     /**
      * @param int $id

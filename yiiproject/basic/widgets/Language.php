@@ -17,7 +17,7 @@ class Language extends Widget
         $model->language = Yii::$app->language;
 
 
-        $form = ActiveForm::begin(['method' => 'post', 'action' => ['site/language']]);
+        $form = ActiveForm::begin(['method' => 'post', 'action' => ['/site/language']]);
         echo $form->field($model, 'language')->dropDownList(Yii::$app->params['languages'], ['onchange' => 'this.form.submit();'])->label(false);
         ActiveForm::end();
 

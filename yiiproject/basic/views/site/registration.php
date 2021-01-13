@@ -18,7 +18,7 @@ use yii\imagine\Image;
 $image = Image::getImagine()->open($img);*/
 
 ?>
-<!--<img src="../../runtime/thumb-test-photo.jpg" alt="" width="120" height="120">-->
+
 
 
 <h2 class="form-signin-heading text-center"><?=$this->title?></h2>

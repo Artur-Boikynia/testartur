@@ -50,9 +50,6 @@ class UsersController extends Controller
     public function actionIndex()
     {
 
-        if (!Yii::$app->user->isGuest) {
-            $this->layout = 'main1';
-        }
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -74,10 +71,7 @@ class UsersController extends Controller
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
 
-        if (!Yii::$app->user->isGuest && self::$model->id == Yii::$app->user->identity->id) {
-            $this->layout = 'main1';
-        }
-         else{
+        if (self::$model->id !== Yii::$app->user->identity->id) {
             $this->layout = 'main2';
         }
 
@@ -101,10 +95,7 @@ class UsersController extends Controller
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
 
-        if (!Yii::$app->user->isGuest && self::$model->id == Yii::$app->user->identity->id) {
-            $this->layout = 'main1';
-        }
-        else{
+        if (self::$model->id !== Yii::$app->user->identity->id) {
             $this->layout = 'main2';
         }
 
@@ -163,7 +154,6 @@ class UsersController extends Controller
      */
     public function actionCreate()
     {
-        $this->layout = 'main';
 
         $model = new RegistrationForm();
 
@@ -185,7 +175,7 @@ class UsersController extends Controller
      */
     public function actionUpdate($id)
     {
-        $this->layout = 'main1';
+        $this->layout = 'main';
 
         $model = $this->findModel($id);
 

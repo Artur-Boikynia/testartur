@@ -68,7 +68,9 @@ class SiteController extends Controller
      * @return string
      */
     public function actionIndex()
-    {   $this->layout = 'main1';
+    {   $this->layout = 'main';
+//        var_dump(Yii::$app->urlManager->rules[5]->route);
+//        Yii::$app->urlManager->rules[5]->route = '/users/view?id=' . Yii::$app->user->identity->id;
         return $this->render('index');
     }
 
@@ -79,7 +81,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        $this->layout = 'main';
+        $this->layout = 'login';
 
         $this->view->title = 'Login';
 
@@ -103,7 +105,7 @@ class SiteController extends Controller
      */
     public function actionRegistration(){
 
-        $this->layout = 'login';
+        $this->layout = 'registration';
 
         $this->getView()->title = 'Registration';
 
@@ -147,7 +149,7 @@ class SiteController extends Controller
     public function actionContact()
     {
         if (!Yii::$app->user->isGuest) {
-            $this->layout = 'main1';
+            $this->layout = 'main';
         }
 
         $model = new ContactForm();
@@ -169,7 +171,7 @@ class SiteController extends Controller
     public function actionAbout()
     {
         if (!Yii::$app->user->isGuest) {
-            $this->layout = 'main1';
+            $this->layout = 'main';
         }
 
         return $this->render('about');

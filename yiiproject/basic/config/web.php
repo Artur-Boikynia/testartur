@@ -60,16 +60,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '/' => '/menu/index'
+                '/' => '/users/index'
             ],
         ],
     ],
     'modules' => [
         'admin' => [
         'class' => mdm\admin\Module::class,
-        'layout' => '@app/views/layouts/main1.php',
-//        'mainLayout' => '@app/views/layouts/main1.php',
-
+        'layout' => '@app/views/layouts/main.php',
         ]
     ],
     'as access' => [

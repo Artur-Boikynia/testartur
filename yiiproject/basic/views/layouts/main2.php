@@ -67,7 +67,7 @@ $this->registerAssetBundle(MainAsset::class);
                         ['label' => 'About', 'url' => ['/site/about']],
                         ['label' => 'Contact', 'url' => ['/site/contact']],
                         Html::tag('li', \app\widgets\Acess::widget()),
-                        Yii::$app->user->can('login') ? (
+                        Yii::$app->user->isGuest ? (
                         ['label' => 'Login', 'url' => ['/site/login']]
                         ) :
                             (
@@ -117,7 +117,7 @@ $this->registerAssetBundle(MainAsset::class);
                     echo Nav::widget([
                         'options' => ['class' => 'nav nav-sidebar'],
                         'items' => [
-                            ['label' => 'Main Info', 'url' => ['/users/view?id=' . getCurrentUser::$usersModel->id]],
+                            ['label' => 'Main Information', 'url' => ['/users/view?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Gallery', 'url' => ['/users/gallery?id=' . getCurrentUser::$usersModel->id]],
 

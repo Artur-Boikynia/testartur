@@ -107,6 +107,7 @@ $this->registerAssetBundle(MainAsset::class);
     //                          ['label' => 'Home', 'url' => ['/site/registration']],
                                 ['label' => 'Main Information', 'url' => ['/users/view?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . Yii::$app->user->identity->id]],
+                                ['label' => 'My Skills', 'url' => ['/users/skills?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'My Gallery', 'url' => ['/users/gallery?id=' . Yii::$app->user->identity->id]],
     //                          ['label' => 'Contact', 'url' => ['/site/contact']],
                             ],

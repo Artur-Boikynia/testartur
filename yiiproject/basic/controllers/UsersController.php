@@ -18,7 +18,8 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UploadedFile;
-
+use app\models\forms\AddSkill;
+use app\components\EditSkill;
 
 /**
  * UsersController implements the CRUD actions for Yiiusers model.
@@ -113,6 +114,7 @@ class UsersController extends Controller
         ]);
 
     }
+
     public function actionDeletePhoto(int $id, bool $delete = false, ?string $path = null)
     {
 //        self::$model = $this->findModel($id);
@@ -144,6 +146,17 @@ class UsersController extends Controller
         }
 
         return $this->redirect("gallery?id={$id}");
+
+    }
+
+    public function actionDeleteSkill (int $id, bool $delete = false, ?string $skill_id = null){
+
+        if($delete && $skill_id !== null){
+            $skill = new EditSkill($id);
+            $skill->remove($skill_id);
+        }
+
+        return $this->redirect("skills?id={$id}");
 
     }
 
@@ -201,6 +214,31 @@ class UsersController extends Controller
 
     }
 
+    public function actionSkills(int $id){
+
+        self::$model = $this->findModel($id);
+        $this->setCurrentUser($id);
+
+        if (self::$model->id !== Yii::$app->user->identity->id) {
+            $this->layout = 'main2';
+        }
+
+        $skill = new AddSkill();
+        $skill->user_id = self::$model->id;
+
+        if($this->request->isPost){
+            $post = $this->request->post();
+            $post = $this->request->post();
+            $skill->setSkill($post['AddSkill']['addYourSkill']);
+        }
+
+
+        return $this->render('skills', [
+            'model' => self::$model,
+            'skillsModel' => $skill,
+        ]);
+
+    }
 
     /**
      * Deletes an existing Yiiusers model.

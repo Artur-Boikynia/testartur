@@ -3,11 +3,8 @@
 
 namespace app\components;
 
-use app\exceptions\NotFoundException;
 use app\models\entities\PhotoEntities;
-use yii\helpers\FileHelper;
 use Yii;
-use yii\web\ErrorAction;
 use yii\db\Exception;
 
 class EditPhoto

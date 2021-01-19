@@ -68,6 +68,9 @@ $config = [
         'admin' => [
         'class' => mdm\admin\Module::class,
         'layout' => '@app/views/layouts/main.php',
+        ],
+        'comment' => [
+            'class' => \yii2mod\comments\Module::class,
         ]
     ],
     'as access' => [

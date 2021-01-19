@@ -45,6 +45,11 @@ SkillsView::widget([
 ])
 ?>
 
+<?php //$model1 = \app\models\entities\Yiiusers::find()->where(['id' => $model->id])->one(); ?>
+
+<?php echo \yii2mod\comments\widgets\Comment::widget([
+    'model' => $model,
+]); ?>
 
 
 

@@ -6,6 +6,7 @@ use app\components\App;
 use app\components\EditPhoto;
 use app\components\getCurrentUserTrait;
 use app\exceptions\NotFoundException;
+use app\models\entities\ExperienceEntities;
 use app\models\forms\AddPhotos;
 use app\models\forms\RegistrationForm;
 use Yii;
@@ -160,6 +161,60 @@ class UsersController extends Controller
 
     }
 
+    public function actionUpdateExperience (int $id, bool $update = false, ?int $experienceId = null){
+
+        self::$model = $this->findModel($id);
+
+        if (self::$model->id !== Yii::$app->user->identity->id) {
+            $this->layout = 'main2';
+        }
+
+        if(!$update && $experienceId === null){
+            throw new NotFoundException(Yii::t('app', 'Parameters was not passed'));
+        }
+
+        $modelExperience  = $this->findExperienceModel($experienceId, false) ;
+
+        if ($modelExperience->load(Yii::$app->request->post()) && $modelExperience->save()) {
+            return $this->redirect(['experience', 'id' => $id]);
+        }
+
+        return $this->render('updateExperience', [
+            'model' => $modelExperience,
+        ]);
+
+    }
+
+    public function actionDeleteExperience (int $id, bool $delete = false, ?int $experienceId = null){
+
+        self::$model = $this->findModel($id);
+
+        if (self::$model->id !== Yii::$app->user->identity->id) {
+            $this->layout = 'main2';
+        }
+
+        if(!$delete && $experienceId === null){
+            throw new NotFoundException(Yii::t('app', 'Parameters was not passed'));
+        }
+
+        $modelExperience  = $this->findExperienceModel($experienceId, false)->delete() ;
+
+
+            return $this->redirect(['experience', 'id' => $id]);
+
+
+
+
+//        $this->findModel($id)->delete();
+
+//        return $this->redirect(['index']);
+
+
+        /*return $this->render('updateExperience', [
+            'model' => $modelExperience,
+        ]);*/
+    }
+
     /**
      * Creates a new Yiiusers model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -228,7 +283,6 @@ class UsersController extends Controller
 
         if($this->request->isPost){
             $post = $this->request->post();
-            $post = $this->request->post();
             $skill->setSkill($post['AddSkill']['addYourSkill']);
         }
 
@@ -236,6 +290,41 @@ class UsersController extends Controller
         return $this->render('skills', [
             'model' => self::$model,
             'skillsModel' => $skill,
+        ]);
+
+    }
+
+    public function actionExperience(int $id){
+
+        self::$model = $this->findModel($id);
+        $this->setCurrentUser($id);
+        $query = $this->findExperienceModel($id);
+
+        if (self::$model->id !== Yii::$app->user->identity->id) {
+            $this->layout = 'main2';
+        }
+
+        $experience = new ExperienceEntities();
+        $experience->user_id = self::$model->id;
+
+        if($this->request->isPost){
+            $lol = Yii::$app->request->post();
+            $experience->load($lol);
+            $experience->save();
+        }
+
+//        $skill = new AddSkill();
+        /*if($this->request->isPost){
+            $post = $this->request->post();
+            $post = $this->request->post();
+            $skill->setSkill($post['AddSkill']['addYourSkill']);
+        }*/
+
+
+        return $this->render('experience', [
+            'model' => self::$model,
+            'experience' => $experience,
+            'query' => $query
         ]);
 
     }
@@ -270,6 +359,28 @@ class UsersController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('app', 'The model does not exist.'));
+    }
+
+    /**
+     * @param $id
+     * @param bool $quantity       if $quantity = true, will be use functionExperienceEntities::findAll()
+     *                             if $quantity = false, will be use functionExperienceEntities::findOne()
+     * @return ExperienceEntities|ExperienceEntities[]|null
+     * @throws NotFoundHttpException
+     */
+    protected function findExperienceModel($id, bool $quantity =  true)
+    {
+        if($quantity){
+            if (($model = ExperienceEntities::findAll(['user_id' => $id])) !== null) {
+                return $model;
+            }
+        }
+
+        if (($model = ExperienceEntities::findOne(['id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The model does not exist.'));
     }
 }

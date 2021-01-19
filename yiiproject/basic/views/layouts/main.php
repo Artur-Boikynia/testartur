@@ -108,8 +108,9 @@ $this->registerAssetBundle(MainAsset::class);
                                 ['label' => 'Main Information', 'url' => ['/users/view?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'My Skills', 'url' => ['/users/skills?id=' . Yii::$app->user->identity->id]],
+                                ['label' => 'My Experience', 'url' => ['/users/experience?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'My Gallery', 'url' => ['/users/gallery?id=' . Yii::$app->user->identity->id]],
-    //                          ['label' => 'Contact', 'url' => ['/site/contact']],
+//                              ['label' => 'Comments', 'url' => ['/site/contact']],
                             ],
                         ]);
                         ?>

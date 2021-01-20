@@ -102,9 +102,12 @@ $this->registerAssetBundle(MainAsset::class);
 
                         <?php
                         echo Nav::widget([
+                            'encodeLabels' => false,
                             'options' => ['class' => 'nav nav-sidebar'],
                             'items' => [
-    //                          ['label' => 'Home', 'url' => ['/site/registration']],
+                                [
+                                    'label' => 'Friends' . ' ' . Html::tag('span', '12', ['class' => 'badge']),
+                                ],
                                 ['label' => 'Main Information', 'url' => ['/users/view?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'My Skills', 'url' => ['/users/skills?id=' . Yii::$app->user->identity->id]],

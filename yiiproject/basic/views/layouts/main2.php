@@ -112,7 +112,14 @@ $this->registerAssetBundle(MainAsset::class);
                             </div>
                          <?php break; ?>
                     <?php endswitch; ?>
-
+                    <?= Html::a(
+                        Yii::t('app', 'Add as Friend'),
+                        ['main-photo'],
+                        ['class' => 'btn btn-primary',
+                            'data' => [
+                                'method' => 'post',
+                            ],
+                        ]); ?>
                     <?php
                     echo Nav::widget([
                         'options' => ['class' => 'nav nav-sidebar'],

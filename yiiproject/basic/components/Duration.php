@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use kartik\icons\Icon;
 use Yii;
 use DateTime;
+use app\models\entities\Yiiusers;
 class Duration
 {
     public ? ExperienceEntities $query = null;
@@ -15,9 +16,12 @@ class Duration
     public string $duration = '';
     public string $updateButtons = '';
     public string $deleteButtons = '';
+    public ?Yiiusers $model = null;
 
-    public function __construct(ExperienceEntities $query){
+
+    public function __construct(ExperienceEntities $query , Yiiusers $model){
         $this->query = $query;
+        $this->model = $model;
         $this->checkTime();
         $this->setTime();
     }
@@ -42,25 +46,28 @@ class Duration
     }
 
     private function setButtons(){
+        if (Yii::$app->user->can('admin') || (Yii::$app->user->identity->id === $this->model->id)){
 
-        $this->updateButtons = Html::a(
-            Icon::show('edit', ['class' => 'fa-2x', 'style' => 'color:Black', 'framework' => Icon::FAS]),
-            ['update-experience', 'id' => $this->query->user->id, 'update' => true, 'experienceId' => $this->query->id],
-            ['class' => 'text-right',
-                'data' => [
-                    'method' => 'post',
-                ],
-            ]) ;
+            $this->updateButtons = Html::a(
+                Icon::show('edit', ['class' => 'fa-2x', 'style' => 'color:Black', 'framework' => Icon::FAS]),
+                ['update-experience', 'id' => $this->query->user->id, 'update' => true, 'experienceId' => $this->query->id],
+                ['class' => 'text-right',
+                    'data' => [
+                        'method' => 'post',
+                    ],
+                ]) ;
 
-        $this->deleteButtons = Html::a(
-            Icon::show('trash-alt', ['class' => 'fa-2x', 'label' =>'vsd', 'style' => 'color:Black', 'framework' => Icon::FAS]),
-            ['delete-experience' , 'id' => $this->query->user->id, 'delete' => true, 'experienceId' => $this->query->id],
-            ['class' => 'text-right',
-                'data' => [
-                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                    'method' => 'post',
-                ],
-            ]) ;
+            $this->deleteButtons = Html::a(
+                Icon::show('trash-alt', ['class' => 'fa-2x', 'label' =>'vsd', 'style' => 'color:Black', 'framework' => Icon::FAS]),
+                ['delete-experience' , 'id' => $this->query->user->id, 'delete' => true, 'experienceId' => $this->query->id],
+                ['class' => 'text-right',
+                    'data' => [
+                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                        'method' => 'post',
+                    ],
+                ]) ;
+
+        }
 
     }
     private function setDuration( int $years, int $months, int $days){

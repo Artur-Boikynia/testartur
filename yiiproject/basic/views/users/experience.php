@@ -30,11 +30,13 @@ $this->registerAssetBundle(MainAsset::class);
 
 <?= ExperienceView::widget([
     'modelsArray' => $query,
+    'model' => $model,
 ])?>
-
-<a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Add new Experience
-</a>
+<?php if(Yii::$app->user->can('admin') || (Yii::$app->user->identity->id === $model->id)): ?>
+    <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Add new Experience
+    </a>
+<?php endif; ?>
 
 <div class="collapse" id="collapseExample">
     <div style="margin-top: 1%">

@@ -120,6 +120,7 @@ $this->registerAssetBundle(MainAsset::class);
                             ['label' => 'Main Information', 'url' => ['/users/view?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Skills', 'url' => ['/users/skills?id=' . getCurrentUser::$usersModel->id]],
+                            ['label' => 'Experience', 'url' => ['/users/experience?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Gallery', 'url' => ['/users/gallery?id=' . getCurrentUser::$usersModel->id]],
 
                         ],

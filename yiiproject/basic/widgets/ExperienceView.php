@@ -3,11 +3,8 @@
 
 namespace app\widgets;
 
-use kartik\icons\Icon;
 use yii\base\Widget;
 use yii\web\View;
-use yii\widgets\DetailView;
-use Yii;
 use app\components\Duration;
 
 class ExperienceView extends Widget
@@ -18,15 +15,12 @@ class ExperienceView extends Widget
     public function init()
     {
         parent::init();
-//        Icon::map($this->viewObject);
 
     }
 
     public function run()
     {
-
         return $this->template();
-
     }
 
     public function template(){
@@ -36,7 +30,7 @@ class ExperienceView extends Widget
 
             $template .=<<<HTML
                 <div class="panel panel-default">
-                    <div class="panel-heading">$duration->time</div>
+                    <div class="panel-heading">$duration->time $duration->duration</div>
                         <div class="panel-body">
                             <h4> Company:  $query->company </h4>
                             <h5> Post: $query->post  </h5>

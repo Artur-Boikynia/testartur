@@ -10,6 +10,7 @@ use app\models\entities\ExperienceEntities;
 use app\models\entities\FriendsEntities;
 use app\models\entities\StatementToFriendshipEntities;
 use app\models\forms\AddPhotos;
+use app\models\forms\FriendsSearch;
 use app\models\forms\RegistrationForm;
 use Yii;
 use app\models\entities\Yiiusers;
@@ -337,9 +338,16 @@ class UsersController extends Controller
         $this->setCurrentUser($id);
         $friendsQuery = checkFriendship::findFriendsQuery($id);
 
+        $searchModel = new FriendsSearch();
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+
         return $this->render('friends', [
             'model' => self::$model,
             'friendsQuery' => $friendsQuery,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -367,14 +375,20 @@ class UsersController extends Controller
      */
     public function actionAcceptFriend(int $idStatement, int $user_answer_id, int $user_ask_id): Response{
 
+        $model = $this->findModel($user_answer_id);
+
         $setFriends1 = new FriendsEntities();
         $setFriends1->user_id = $user_ask_id;
         $setFriends1->friend_id = $user_answer_id;
+        $setFriends1->username = $model->surname . ' ' . $model->name;
         $setFriends1->save();
+
+        $model = $this->findModel($user_ask_id);
 
         $setFriends2 = new FriendsEntities();
         $setFriends2->user_id = $user_answer_id;
         $setFriends2->friend_id = $user_ask_id;
+        $setFriends2->username = $model->surname . ' ' . $model->name;
         $setFriends2->save();
 
         $deleteStatement = (new StatementToFriendshipEntities())::findOne(['id' => $idStatement])->delete();
@@ -385,6 +399,14 @@ class UsersController extends Controller
     public function actionRejectFriend(int $idStatement):Response{
 
         $deleteStatement = (new StatementToFriendshipEntities())::findOne(['id' => $idStatement])->delete();
+
+        return $this->redirect($this->request->getReferrer());
+    }
+
+    public function actionRemoveFriend( int $friendId, int $userId):Response{
+
+        $deleteFriend1 = (new FriendsEntities())::findOne(['friend_id' => $friendId, 'user_id' => $userId])->delete();
+        $deleteFriend1 = (new FriendsEntities())::findOne(['friend_id' => $userId, 'user_id' => $friendId])->delete();
 
         return $this->redirect($this->request->getReferrer());
     }

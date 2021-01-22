@@ -13,11 +13,12 @@ use yii\web\View;
 use app\models\entities\StatementToFriendshipEntities;
 use Yii;
 use app\components\EditPhoto;
+use app\components\web\checkFriendship;
 class FriendsStatementView extends Widget
 {
     public ?View $viewObject = null;
     public array $modelsArray = [];
-    public ?StatementToFriendshipEntities $model = null;
+    public ?Yiiusers $model = null;
 
     public function init()
     {
@@ -32,11 +33,29 @@ class FriendsStatementView extends Widget
     }
 
     public function template(){
+        $countQuery = checkFriendship::getQueryCount($this->model->id)?: false;
+        $flowIcon = <<<HTML
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong>Attention!</strong> You have $countQuery friend requests.
+                </div>
+            HTML;
+        /*$headerFriends =<<<HTML
+            <h3>Friends</h3>
+        HTML;
+        $headerRquest =<<<HTML
+            <h3>Friend requests</h3>
+        HTML;*/
 
         foreach ($this->modelsArray as $query){
 
-            $queryUserSurname = $query->userAsk->surname;
-            $queryUserName = $query->userAsk->name;
+            $userName = Html::a($query->userAsk->surname . PHP_EOL . $query->userAsk->name,
+                ['/users/view' , 'id' =>  $query->userAsk->id],
+                [
+                    'data' => [
+                        'method' => 'post',
+                    ],
+                ]) ;
 
             $acceptButton = Html::a(
                 Yii::t('app', 'Accept'),
@@ -57,11 +76,12 @@ class FriendsStatementView extends Widget
 
             $mainImage = EditPhoto::findMainPhoto($query->userAsk->id);
 
+
             $image = Html::img(['users/image', 'url' => $mainImage->path], [ 'width' => '100', 'height' => '100', 'class' => 'img-circle']);
 
             $icon = <<<HTML
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <div class="thumbnail">
                             <div class="row">
                                 <div class="col-md-4">
@@ -70,7 +90,7 @@ class FriendsStatementView extends Widget
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <h3>$queryUserSurname $queryUserName</h3>
+                                    <h3>$userName</h3>
                                 </div>
                             </div>
                           <div class="caption">
@@ -82,17 +102,20 @@ class FriendsStatementView extends Widget
                  
             HTML;
 
-            $template .=<<<HTML
-            <div class="row">
-                <div class="col-md-4">
-              
+            $layout .=<<<HTML
+                <div >
+                    $icon
                 </div>
-                <div class="col-md-8">
-                $icon
-                </div>
-            </div>      
+                 
             HTML;
         }
+
+
+        if($countQuery){
+            $template = $flowIcon . $layout;
+        }
+//        $template = $flowIcon . $layout;
+
         return $template;
     }
 

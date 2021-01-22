@@ -7,6 +7,7 @@ use \yii\bootstrap\Nav;
 use app\widgets\Language;
 use app\models\entities\Yiiusers;
 use app\components\EditPhoto;
+use app\components\web\checkFriendship;
 
 /**
  * @var View $this
@@ -99,14 +100,15 @@ $this->registerAssetBundle(MainAsset::class);
                             <h4><?php echo Yii::$app->user->identity->name . ' ' . Yii::$app->user->identity->surname ?></h4>
                             <span class="text-muted">Something else</span>
                         </div>
-
+                        <?php $countQuery = checkFriendship::getQueryCount(Yii::$app->user->identity->id)?: false?>
                         <?php
                         echo Nav::widget([
                             'encodeLabels' => false,
                             'options' => ['class' => 'nav nav-sidebar'],
                             'items' => [
                                 [
-                                    'label' => 'Friends' . ' ' . Html::tag('span', '12', ['class' => 'badge']),
+                                    'label' => 'Friends' . ' ' . Html::tag('span', $countQuery, ['class' => 'badge']),
+                                    'url' => ['/users/friends?id=' . Yii::$app->user->identity->id]
                                 ],
                                 ['label' => 'Main Information', 'url' => ['/users/view?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . Yii::$app->user->identity->id]],

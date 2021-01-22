@@ -9,6 +9,7 @@ use app\controllers\UsersController;
 use app\widgets\Language;
 use app\components\getCurrentUser;
 use app\components\EditPhoto;
+use app\components\web\checkFriendship;
 
 
 /**
@@ -112,14 +113,18 @@ $this->registerAssetBundle(MainAsset::class);
                             </div>
                          <?php break; ?>
                     <?php endswitch; ?>
-                    <?= Html::a(
-                        Yii::t('app', 'Add as Friend'),
-                        ['main-photo'],
-                        ['class' => 'btn btn-primary',
-                            'data' => [
-                                'method' => 'post',
-                            ],
-                        ]); ?>
+
+                    <?php if(!checkFriendship::check(Yii::$app->user->identity->id, getCurrentUser::$usersModel->id)):?>
+                        <?= Html::a(
+                            Yii::t('app', 'Add as Friend'),
+                            ['/users/add-friend', 'user_ask_id' => Yii::$app->user->identity->id , 'user_answer_id' => getCurrentUser::$usersModel->id, 'ask' => 1],
+                            ['class' => 'btn btn-primary',
+                                'data' => [
+                                    'method' => 'post',
+                                ],
+                            ]); ?>
+                    <?php endif;?>
+
                     <?php
                     echo Nav::widget([
                         'options' => ['class' => 'nav nav-sidebar'],

@@ -7,13 +7,14 @@ use app\components\EditPhoto;
 use app\components\getCurrentUserTrait;
 use app\exceptions\NotFoundException;
 use app\models\entities\ExperienceEntities;
+use app\models\entities\FriendsEntities;
+use app\models\entities\StatementToFriendshipEntities;
 use app\models\forms\AddPhotos;
 use app\models\forms\RegistrationForm;
 use Yii;
 use app\models\entities\Yiiusers;
 use app\models\search\UserSearch;
 use app\components\web\SecuredController;
-use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -21,6 +22,8 @@ use yii\web\Response;
 use yii\web\UploadedFile;
 use app\models\forms\AddSkill;
 use app\components\EditSkill;
+use app\components\web\checkFriendship;
+
 
 /**
  * UsersController implements the CRUD actions for Yiiusers model.
@@ -308,8 +311,7 @@ class UsersController extends Controller
         $experience->user_id = self::$model->id;
 
         if($this->request->isPost){
-            $lol = Yii::$app->request->post();
-            $experience->load($lol);
+            $experience->load(Yii::$app->request->post());
             $experience->save();
         }
 
@@ -329,6 +331,63 @@ class UsersController extends Controller
 
     }
 
+    public function actionFriends(int $id){
+
+        self::$model = $this->findModel($id);
+        $this->setCurrentUser($id);
+        $friendsQuery = checkFriendship::findFriendsQuery($id);
+
+        return $this->render('friends', [
+            'model' => self::$model,
+            'friendsQuery' => $friendsQuery,
+        ]);
+    }
+
+    public function actionAddFriend(int $user_ask_id, int $user_answer_id,  int $ask = 0){
+
+        $modelStatement = new StatementToFriendshipEntities();
+        $modelStatement->user_ask_id = $user_ask_id;
+        $modelStatement->user_answer_id = $user_answer_id;
+        $modelStatement->ask = $ask;
+
+        if ($modelStatement->save()) {
+            return $this->redirect($this->request->getReferrer());
+        }
+
+        return $this->redirect($this->request->getReferrer());
+    }
+
+    /**
+     * @param int $idStatement
+     * @param int $user_answer_id
+     * @param int $user_ask_id
+     * @return Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionAcceptFriend(int $idStatement, int $user_answer_id, int $user_ask_id): Response{
+
+        $setFriends1 = new FriendsEntities();
+        $setFriends1->user_id = $user_ask_id;
+        $setFriends1->friend_id = $user_answer_id;
+        $setFriends1->save();
+
+        $setFriends2 = new FriendsEntities();
+        $setFriends2->user_id = $user_answer_id;
+        $setFriends2->friend_id = $user_ask_id;
+        $setFriends2->save();
+
+        $deleteStatement = (new StatementToFriendshipEntities())::findOne(['id' => $idStatement])->delete();
+
+        return $this->redirect($this->request->getReferrer());
+    }
+
+    public function actionRejectFriend(int $idStatement):Response{
+
+        $deleteStatement = (new StatementToFriendshipEntities())::findOne(['id' => $idStatement])->delete();
+
+        return $this->redirect($this->request->getReferrer());
+    }
     /**
      * Deletes an existing Yiiusers model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

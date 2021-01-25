@@ -40,10 +40,9 @@ class getEducationParams
             ]);
 
         $this->updateButtons = Html::a('<span class="glyphicon glyphicon-refresh" style="color: black" aria-hidden="true"></span>',
-            ['delete-school'],
+            ['update-education', 'id' => $query->id, 'tableName' => $query::tableName()],
             ['class' => 'text-right',
                 'data' => [
-                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                     'method' => 'post',
                 ],
             ]) ;

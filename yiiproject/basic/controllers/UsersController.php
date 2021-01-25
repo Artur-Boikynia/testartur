@@ -302,6 +302,7 @@ class UsersController extends Controller
     }
 
     public function actionEducation (int $id){
+
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
 
@@ -309,6 +310,7 @@ class UsersController extends Controller
         $schoolModel->user_id = self::$model->id;
 
         $highSchoolModel = new HighSchoolEntities();
+        $highSchoolModel->user_id = self::$model->id;
 
         $querySchool = $this->findSchoolModel($id);
         $queryHighSchool = $this->findHighSchoolModel($id);
@@ -317,6 +319,10 @@ class UsersController extends Controller
         if($this->request->isPost){
             $schoolModel->load(Yii::$app->request->post());
             $schoolModel->save();
+
+            $highSchoolModel->load(Yii::$app->request->post());
+            $highSchoolModel->save();
+
 
         }
         return $this->render('education', [
@@ -336,6 +342,32 @@ class UsersController extends Controller
             ->execute();
 
         return $this->redirect($this->request->getReferrer());
+    }
+
+    public function actionUpdateEducation(int $id, string $tableName){
+        switch ($tableName){
+            case 'school':
+                $model = (new SchoolEntities())::findOne(['id' => $id]);
+                if($this->request->isPost){
+                    $model->load($this->request->post());
+                    $model->save();
+                }
+                break;
+            case 'high_school':
+                $model = (new HighSchoolEntities())::findOne(['id' => $id]);
+                if($this->request->isPost){
+                    $model->load($this->request->post());
+                    $model->save();
+                }
+                break;
+            default:
+                throw new NotFoundException("This table {$tableName} was not exist");
+
+        }
+
+        return $this->render($tableName,[
+            'queryModel' => $model,
+        ]);
     }
 
     public function actionExperience(int $id){

@@ -45,7 +45,7 @@ class EducationView extends \yii\base\Widget
                     <div class="panel-heading">
                         <div class="row">
                               <div class="col-md-11">$objectSchool->duration</div>
-                              <div class="col-md-1">$objectSchool->deleteButtons</div>
+                              <div class="col-md-1">$objectSchool->deleteButtons $objectSchool->updateButtons</div>
                         </div>
                     </div>
                         <div class="panel-body">
@@ -59,21 +59,29 @@ class EducationView extends \yii\base\Widget
         }
 
     foreach ($this->queryHighSchool as $query){
-        $objectSchool->setDuration($query->begin, $query->end);
-        $objectSchool->setNameOfUni($query->nameOfUni);
-        $objectSchool->setSpecialty($query->specialty);
-        $objectSchool->setNameOfFaculty($query->faculty);
-        $objectSchool->setNameOfDepartament($query->departament);
+        $objectUni = new getEducationParams($query);
+
+        $objectUni->setHeaderHighSchool(Yii::t('app', 'High Education'));
+        $objectUni->setDuration($query->begin, $query->end);
+        $objectUni->setNameOfUni($query->nameOfUni);
+        $objectUni->setSpecialty($query->specialty);
+        $objectUni->setNameOfFaculty($query->faculty);
+        $objectUni->setNameOfDepartament($query->departament);
 
         $templateHighSchool .= <<<HTML
             <div class="panel panel-primary">
-                <div class="panel-heading"> <strong>$query->degree $query->specialty</strong> $objectSchool->duration</div>
+                <div class="panel-heading">
+                    <div class="row">
+                          <div class="col-md-11"><strong>$query->degree $query->specialty</strong> $objectUni->duration</div>
+                          <div class="col-md-1">$objectUni->deleteButtons $objectUni->updateButtons</div>
+                    </div>
+                </div>    
                 <div class="panel-body">
-                    <h5>$objectSchool->nameOfUni</h5>
-                    <h5>$objectSchool->nameOfPlace</h5>
-                    <h5>$objectSchool->nameOfFaculty</h5>
-                    <h5>$objectSchool->specialty</h5>
-                    <h5>$objectSchool->nameOfDepartament</h5>
+                    <h5>$objectUni->nameOfUni</h5>
+                    <h5>$objectUni->nameOfPlace</h5>
+                    <h5>$objectUni->nameOfFaculty</h5>
+                    <h5>$objectUni->specialty</h5>
+                    <h5>$objectUni->nameOfDepartament</h5>
                 </div>
             </div>
         HTML;
@@ -90,7 +98,7 @@ class EducationView extends \yii\base\Widget
 
         $uniView = <<<HTML
            <div class="bs-callout bs-callout-uni" id="callout-overview-dependencies">
-                <h4>$object->headerHighSchool</h4>
+                <h4>$objectUni->headerHighSchool</h4>
                 <p>
                     $templateHighSchool
                 </p>

@@ -113,16 +113,21 @@ $this->registerAssetBundle(MainAsset::class);
                             </div>
                          <?php break; ?>
                     <?php endswitch; ?>
-
-                    <?php if(!checkFriendship::check(Yii::$app->user->identity->id, getCurrentUser::$usersModel->id)):?>
-                        <?= Html::a(
-                            Yii::t('app', 'Add as Friend'),
-                            ['/users/add-friend', 'user_ask_id' => Yii::$app->user->identity->id , 'user_answer_id' => getCurrentUser::$usersModel->id, 'ask' => 1],
-                            ['class' => 'btn btn-primary',
-                                'data' => [
-                                    'method' => 'post',
-                                ],
-                            ]); ?>
+                    <?php if(!Yii::$app->user->isGuest):?>
+                        <?php if(!checkFriendship::isFriends(Yii::$app->user->identity->id, getCurrentUser::$usersModel->id)):?>
+                            <?php if(!checkFriendship::check(Yii::$app->user->identity->id, getCurrentUser::$usersModel->id)):?>
+                                <?= Html::a(
+                                    Yii::t('app', 'Add as Friend'),
+                                    ['/users/add-friend', 'user_ask_id' => Yii::$app->user->identity->id , 'user_answer_id' => getCurrentUser::$usersModel->id, 'ask' => 1],
+                                    ['class' => 'btn btn-primary',
+                                        'data' => [
+                                            'method' => 'post',
+                                        ],
+                                    ]); ?>
+                            <?php endif;?>
+                        <?php else:?>
+                            <?= Html::a(Yii::t('app', 'Remove friend'), ['/users/remove-friend', 'friendId'=> getCurrentUser::$usersModel->id, 'userId' => Yii::$app->user->identity->id ], ['class' => 'btn btn-primary']); ?>
+                        <?php endif;?>
                     <?php endif;?>
 
                     <?php

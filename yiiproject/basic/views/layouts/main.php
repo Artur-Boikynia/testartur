@@ -37,7 +37,7 @@ $this->registerAssetBundle(MainAsset::class);
         <style>
             html, body {
                 height: 100%;
-                background: white;
+                background: #ffffff;
             }
         </style>
         <?php $this->registerCsrfMetaTags() ?>
@@ -111,6 +111,7 @@ $this->registerAssetBundle(MainAsset::class);
                                     'url' => ['/users/friends?id=' . Yii::$app->user->identity->id]
                                 ],
                                 ['label' => 'Main Information', 'url' => ['/users/view?id=' . Yii::$app->user->identity->id]],
+                                ['label' => 'Education', 'url' => ['users/education?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'My Skills', 'url' => ['/users/skills?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'My Experience', 'url' => ['/users/experience?id=' . Yii::$app->user->identity->id]],

@@ -3,9 +3,7 @@ use yii\helpers\Html;
 use app\assets\MainAsset;
 use kartik\icons\Icon;
 use kartik\form\ActiveForm;
-use app\widgets\SkillsView;
 use kartik\date\DatePicker;
-use app\components\Duration;
 use app\widgets\ExperienceView;
 
 

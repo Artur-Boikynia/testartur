@@ -49,7 +49,6 @@ Icon::map($this);
                       $image = EditPhoto::findMainPhoto($data->friend_id);
                       return Html::img(['users/image', 'url' => $image->path], [ 'width' => '30', 'height' => '30', 'class' => 'img-circle ']);
                   },
-
                 ],
                 [
                     'attribute' => 'username',
@@ -70,6 +69,7 @@ Icon::map($this);
                             Html::a(Yii::t('app', 'Messsage'), ['/users/view','id'=> $data->friend_id], ['class' => 'btn btn-primary']);
                     }
                 ],
+
                 [
                   'label' => 'Remove',
                     'format' => 'html',
@@ -82,9 +82,7 @@ Icon::map($this);
 //                'id',
 //                'user_id',
 //                'friend_id',
-
 //                'created_at',
-
 //                ['class' => 'yii\grid\ActionColumn'],
             ],
         ]); ?>

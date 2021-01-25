@@ -8,6 +8,8 @@ use app\components\getCurrentUserTrait;
 use app\exceptions\NotFoundException;
 use app\models\entities\ExperienceEntities;
 use app\models\entities\FriendsEntities;
+use app\models\entities\HighSchoolEntities;
+use app\models\entities\SchoolEntities;
 use app\models\entities\StatementToFriendshipEntities;
 use app\models\forms\AddPhotos;
 use app\models\forms\FriendsSearch;
@@ -16,6 +18,7 @@ use Yii;
 use app\models\entities\Yiiusers;
 use app\models\search\UserSearch;
 use app\components\web\SecuredController;
+use yii\db\Query;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -298,6 +301,43 @@ class UsersController extends Controller
 
     }
 
+    public function actionEducation (int $id){
+        self::$model = $this->findModel($id);
+        $this->setCurrentUser($id);
+
+        $schoolModel = new SchoolEntities();
+        $schoolModel->user_id = self::$model->id;
+
+        $highSchoolModel = new HighSchoolEntities();
+
+        $querySchool = $this->findSchoolModel($id);
+        $queryHighSchool = $this->findHighSchoolModel($id);
+
+
+        if($this->request->isPost){
+            $schoolModel->load(Yii::$app->request->post());
+            $schoolModel->save();
+
+        }
+        return $this->render('education', [
+            'model' => self::$model,
+            'querySchool' => $querySchool,
+            'queryHighSchool' => $queryHighSchool,
+            'schoolModel' => $schoolModel,
+            'highSchoolModel' => $highSchoolModel,
+        ]);
+    }
+
+    public function actionDeleteEducation(int $id, string $tableName){
+        $query = new Query();
+        $query
+            ->createCommand()
+            ->delete($tableName, ['id' => $id])
+            ->execute();
+
+        return $this->redirect($this->request->getReferrer());
+    }
+
     public function actionExperience(int $id){
 
         self::$model = $this->findModel($id);
@@ -315,13 +355,6 @@ class UsersController extends Controller
             $experience->load(Yii::$app->request->post());
             $experience->save();
         }
-
-//        $skill = new AddSkill();
-        /*if($this->request->isPost){
-            $post = $this->request->post();
-            $post = $this->request->post();
-            $skill->setSkill($post['AddSkill']['addYourSkill']);
-        }*/
 
 
         return $this->render('experience', [
@@ -459,6 +492,24 @@ class UsersController extends Controller
         }
 
         if (($model = ExperienceEntities::findOne(['id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The model does not exist.'));
+    }
+
+    protected function findHighSchoolModel(int $id){
+
+        if (($model = HighSchoolEntities::findAll(['user_id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The model does not exist.'));
+    }
+
+    protected function findSchoolModel(int $id){
+
+        if (($model = SchoolEntities::findAll(['user_id' => $id])) !== null) {
             return $model;
         }
 

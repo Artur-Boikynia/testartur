@@ -25,7 +25,9 @@ class getEducationParams
     public ?string $updateButtons = null;
 
     public function __construct($query){
-        $this->setButtons($query);
+        if(Yii::$app->user->identity->id === $query->user_id){
+            $this->setButtons($query);
+        }
     }
 
     public function setButtons($query){

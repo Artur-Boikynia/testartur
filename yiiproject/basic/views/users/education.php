@@ -25,10 +25,10 @@ $this->registerAssetBundle(MainAsset::class);
 ?>
 
 <h1> Experience of <?= $model->name . ' ' .   $model->surname?></h1>
-
+<?php if(Yii::$app->user->can('admin') || Yii::$app->user->identity->id === $model->id): ?>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#schoolEducation" data-whatever="@mdo">Add School Education</button>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#highSchoolEducation" data-whatever="@fat">Add High Education</button>
-
+<?php endif; ?>
 
 <div class="modal fade" id="schoolEducation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">

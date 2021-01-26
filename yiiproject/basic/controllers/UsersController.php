@@ -306,6 +306,10 @@ class UsersController extends Controller
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
 
+        if (self::$model->id !== Yii::$app->user->identity->id) {
+            $this->layout = 'main2';
+        }
+
         $schoolModel = new SchoolEntities();
         $schoolModel->user_id = self::$model->id;
 
@@ -401,6 +405,11 @@ class UsersController extends Controller
 
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
+
+        if (self::$model->id !== Yii::$app->user->identity->id) {
+            $this->layout = 'main2';
+        }
+        
         $friendsQuery = checkFriendship::findFriendsQuery($id);
 
         $searchModel = new FriendsSearch();

@@ -32,7 +32,6 @@ Icon::map($this);
 <div class="row">
     <div class="col-md-5">
         <?php  echo $this->render('friends-search', ['model' => $searchModel, 'userModel' => $model]); ?>
-        <?php $image = Html::img(['users/image', 'url' => '/var/www/yiiproject/basic/config/../photos/22/1611014118bfbf6783bcfd7103f41197736ae004401899965801.png'], [ 'width' => '100', 'height' => '100', 'class' => 'img-circle']); ?>
         <?= GridView::widget([
 
             'tableOptions' => ['class' => 'table'],
@@ -63,6 +62,7 @@ Icon::map($this);
                 [
                     'label' => 'Send',
                     'format' => 'html',
+                    'visible' => (Yii::$app->user->can('admin') || Yii::$app->user->identity->id === $model->id)?:false,
                     'value' => function($data)
                     {
                         return
@@ -72,8 +72,9 @@ Icon::map($this);
 
                 [
                   'label' => 'Remove',
-                    'format' => 'html',
-                    'value' => function($data)
+                  'format' => 'html',
+                  'visible' => (Yii::$app->user->can('admin') || Yii::$app->user->identity->id === $model->id)?:false,
+                  'value' => function($data)
                     {
                         return
                             Html::a(Yii::t('app', 'Remove friend'), ['/users/remove-friend', 'friendId'=> $data->friend_id, 'userId' => $data->user_id], ['class' => 'btn btn-primary']);

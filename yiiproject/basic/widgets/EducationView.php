@@ -105,7 +105,13 @@ class EducationView extends \yii\base\Widget
            </div>
         HTML;
 
-        return $schoolView . $uniView ;
+        if(!$templateSchool){
+            return $uniView;
+        }
+        if(!$templateHighSchool){
+            return $schoolView;
+        }
+        return $uniView;
 
     }
 

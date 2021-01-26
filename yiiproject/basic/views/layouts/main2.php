@@ -134,7 +134,9 @@ $this->registerAssetBundle(MainAsset::class);
                     echo Nav::widget([
                         'options' => ['class' => 'nav nav-sidebar'],
                         'items' => [
+                            ['label' => 'Friends', 'url' => ['/users/friends?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Main Information', 'url' => ['/users/view?id=' . getCurrentUser::$usersModel->id]],
+                            ['label' => 'Education', 'url' => ['users/education?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Programming languages', 'url' => ['programminglanguages/view?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Skills', 'url' => ['/users/skills?id=' . getCurrentUser::$usersModel->id]],
                             ['label' => 'Experience', 'url' => ['/users/experience?id=' . getCurrentUser::$usersModel->id]],

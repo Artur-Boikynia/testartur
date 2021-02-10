@@ -21,6 +21,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     imagemagick
 
+RUN docker-php-ext-install sockets
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo_mysql mysqli zip mbstring \

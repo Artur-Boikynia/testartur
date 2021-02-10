@@ -5,7 +5,7 @@ function message(text){
 
 jQuery(document).ready(function ($){
 
-    var socket = new WebSocket("ws://yiiproject.com/yiiproject/basic/components/chatserver.php");
+    var socket = new WebSocket("ws://yiiproject.com:80/yiiproject/basic/components/chatserver.php");
 
     socket.onopen = function (){
         message("Is Connected");

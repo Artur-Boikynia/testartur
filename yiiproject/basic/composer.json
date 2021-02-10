@@ -26,7 +26,9 @@
         "kartik-v/yii2-widget-activeform": "^1.5",
         "kartik-v/yii2-field-range": "*",
         "yii2mod/yii2-comments": "*",
-        "sintret/yii2-chat-adminlte": "^1.0"
+        "sintret/yii2-chat-adminlte": "^1.0",
+        "ext-sockets": "*",
+        "clue/socket-raw": "^1.5"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

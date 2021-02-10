@@ -1,1 +1,0 @@
-<h1><?= $this->variables['p1'] ?></h1>

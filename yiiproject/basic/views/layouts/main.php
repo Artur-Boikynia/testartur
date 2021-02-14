@@ -108,7 +108,7 @@ $this->registerAssetBundle(MainAsset::class);
                             'items' => [
                                 [
                                     'label' => 'Friends' . ' ' . Html::tag('span', $countQuery, ['class' => 'badge']),
-                                    'url' => ['/users/friends?id=' . Yii::$app->user->identity->id]
+                                    'url' => ['/friends/friends?id=' . Yii::$app->user->identity->id]
                                 ],
                                 ['label' => 'Main Information', 'url' => ['/users/view?id=' . Yii::$app->user->identity->id]],
                                 ['label' => 'Education', 'url' => ['users/education?id=' . Yii::$app->user->identity->id]],

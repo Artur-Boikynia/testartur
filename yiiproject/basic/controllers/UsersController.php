@@ -414,7 +414,7 @@ class UsersController extends Controller
 
     }
 
-    public function actionFriends(int $id){
+    /*public function actionFriends(int $id){
 
         self::$model = $this->findModel($id);
         $this->setCurrentUser($id);
@@ -436,7 +436,7 @@ class UsersController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }
+    }*/
 
     public function actionAddFriend(int $user_ask_id, int $user_answer_id,  int $ask = 0){
 

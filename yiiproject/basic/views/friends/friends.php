@@ -36,18 +36,18 @@ Icon::map($this);
 
             'tableOptions' => ['class' => 'table'],
             'dataProvider' => $dataProvider,
-                'class' => 'col-lg-1',
+            'class' => 'col-lg-1',
 //            'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 [
-                  'label' => 'Avatar',
+                    'label' => 'Avatar',
 //                  'encodeLabel' => false,
-                  'format' => 'html',
-                  'value' => function($data){
-                      $image = EditPhoto::findMainPhoto($data->friend_id);
-                      return Html::img(['users/image', 'url' => $image->path], [ 'width' => '30', 'height' => '30', 'class' => 'img-circle ']);
-                  },
+                    'format' => 'html',
+                    'value' => function($data){
+                        $image = EditPhoto::findMainPhoto($data->friend_id);
+                        return Html::img(['users/image', 'url' => $image->path], [ 'width' => '30', 'height' => '30', 'class' => 'img-circle ']);
+                    },
                 ],
                 [
                     'attribute' => 'username',
@@ -71,10 +71,10 @@ Icon::map($this);
                 ],
 
                 [
-                  'label' => 'Remove',
-                  'format' => 'html',
-                  'visible' => (Yii::$app->user->can('admin') || Yii::$app->user->identity->id === $model->id)?:false,
-                  'value' => function($data)
+                    'label' => 'Remove',
+                    'format' => 'html',
+                    'visible' => (Yii::$app->user->can('admin') || Yii::$app->user->identity->id === $model->id)?:false,
+                    'value' => function($data)
                     {
                         return
                             Html::a(Yii::t('app', 'Remove friend'), ['/users/remove-friend', 'friendId'=> $data->friend_id, 'userId' => $data->user_id], ['class' => 'btn btn-primary']);
@@ -95,6 +95,3 @@ Icon::map($this);
         ])?>
     </div>
 </div>
-
-
-
